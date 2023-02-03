@@ -2,8 +2,11 @@
 
 #include <poseidon.h>
 
+using namespace poseidon;
+
 int main(int argc, char* argv[])
 {
-	poseidon::init();
+	Application app;
+	app.execute();
 	return 0;
 }

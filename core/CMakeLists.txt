@@ -2,7 +2,7 @@
 
 find_package(SDL2 REQUIRED)
 
-add_library (core "poseidon.cpp" "poseidon.h")
+add_library (core "poseidon.h" "system/application.h" "system/application.cpp")
 
 target_link_libraries(core SDL2::SDL2)
 
