@@ -1,5 +1,3 @@
 ﻿#pragma once
 
-namespace poseidon {
-	void init();
-}
+#include "system/application.h"
