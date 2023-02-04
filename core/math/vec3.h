@@ -23,10 +23,10 @@ namespace poseidon
 		static float dot(const Vec3& lhs, const Vec3& rhs);
 		static Vec3 cross(const Vec3& lhs, const Vec3& rhs);
 
-		float sqrMagnitude();
-		float magnitude();
+		float sqrMagnitude() const;
+		float magnitude() const;
 		void normalize();
-		Vec3 normalized();
+		Vec3 normalized() const;
 
 		// Assignment operators
 		Vec3& operator+=(const Vec3& rhs);

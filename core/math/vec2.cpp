@@ -26,14 +26,14 @@ namespace poseidon
 			lhs.y * rhs.y;
 	}
 
-	float Vec2::sqrMagnitude()
+	float Vec2::sqrMagnitude() const
 	{
 		return
 			this->x * this->x +
 			this->y * this->y;
 	}
 
-	float Vec2::magnitude()
+	float Vec2::magnitude() const
 	{
 		return sqrt(sqrMagnitude());
 	}
@@ -48,7 +48,7 @@ namespace poseidon
 		this->y *= scale;
 	}
 
-	Vec2 Vec2::normalized()
+	Vec2 Vec2::normalized() const
 	{
 		float mag = magnitude();
 		if (mag == 0.0) { return zero; }

@@ -19,10 +19,10 @@ namespace poseidon
 		static float distance(const Vec2& lhs, const Vec2& rhs);
 		static float dot(const Vec2& lhs, const Vec2& rhs);
 
-		float sqrMagnitude();
-		float magnitude();
+		float sqrMagnitude() const;
+		float magnitude() const;
 		void normalize();
-		Vec2 normalized();
+		Vec2 normalized() const;
 
 		// Assignment operators
 		Vec2& operator+=(const Vec2& rhs);

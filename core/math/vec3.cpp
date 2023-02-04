@@ -38,7 +38,7 @@ namespace poseidon
 		);
 	}
 
-	float Vec3::sqrMagnitude()
+	float Vec3::sqrMagnitude() const
 	{
 		return
 			this->x * this->x +
@@ -46,7 +46,7 @@ namespace poseidon
 			this->z * this->z;
 	}
 
-	float Vec3::magnitude()
+	float Vec3::magnitude() const
 	{
 		return sqrt(sqrMagnitude());
 	}
@@ -62,7 +62,7 @@ namespace poseidon
 		this->z *= scale;
 	}
 
-	Vec3 Vec3::normalized()
+	Vec3 Vec3::normalized() const
 	{
 		float mag = magnitude();
 		if (mag == 0.0) { return zero; }

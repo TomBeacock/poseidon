@@ -25,7 +25,7 @@ namespace poseidon
 			lhs.w * rhs.w;
 	}
 
-	float Vec4::sqrMagnitude()
+	float Vec4::sqrMagnitude() const
 	{
 		return
 			this->x * this->x +
@@ -34,7 +34,7 @@ namespace poseidon
 			this->w * this->w;
 	}
 
-	float Vec4::magnitude()
+	float Vec4::magnitude() const
 	{
 		return sqrt(sqrMagnitude());
 	}
@@ -51,7 +51,7 @@ namespace poseidon
 		this->w *= scale;
 	}
 
-	Vec4 Vec4::normalized()
+	Vec4 Vec4::normalized() const
 	{
 		float mag = magnitude();
 		if (mag == 0.0) { return zero; }
