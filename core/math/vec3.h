@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 namespace poseidon
 {
 	struct Vec3
@@ -47,4 +49,7 @@ namespace poseidon
 	Vec3 operator/(const Vec3& lhs, float rhs);
 	Vec3 operator/(float lhs, const Vec3& rhs);
 	Vec3 operator/(const Vec3& lhs, const Vec3& rhs);
+
+	// Print
+	std::ostream& operator<<(std::ostream& outs, const Vec3& v);
 }

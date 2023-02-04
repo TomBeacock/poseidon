@@ -251,4 +251,13 @@ namespace poseidon
 			result.values[i] /= lhs;
 		return result;
 	}
+
+	std::ostream& operator<<(std::ostream& outs, const Mat4& v)
+	{
+		for (int i = 0; i < 4; ++i) {
+			outs << "| " << v(0, i) << " " << v(1, i) << " " << v(2, i) << " " << v(3, i) << " |";
+			if (i < 3) outs << std::endl;
+		}
+		return outs;
+	}
 }

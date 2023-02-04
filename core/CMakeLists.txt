@@ -11,7 +11,10 @@ add_library (core
 "math/mat4.h" "math/mat4.cpp")
 
 target_link_libraries(core SDL2::SDL2 glad)
-target_include_directories(core PUBLIC "${CMAKE_SOURCE_DIR}/extern/glad/include")
+target_include_directories(core PUBLIC
+"${PROJECT_SOURCE_DIR}"
+"${CMAKE_SOURCE_DIR}/extern/glad/include"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET core PROPERTY CXX_STANDARD 20)

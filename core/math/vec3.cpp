@@ -183,4 +183,9 @@ namespace poseidon
 			lhs.z / rhs.z
 		);
 	}
+
+	std::ostream& operator<<(std::ostream& outs, const Vec3& v)
+	{
+		return outs << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+	}
 }

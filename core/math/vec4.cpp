@@ -185,4 +185,9 @@ namespace poseidon
 			lhs.w / rhs.w
 		);
 	}
+
+	std::ostream& operator<<(std::ostream& outs, const Vec4& v)
+	{
+		return outs << "(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
+	}
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 namespace poseidon
 {
 	struct Vec2
@@ -25,14 +27,14 @@ namespace poseidon
 		Vec2 normalized() const;
 
 		// Assignment operators
-		Vec2& operator+=(const Vec2& rhs);
-		Vec2& operator-=(const Vec2& rhs);
-		Vec2& operator*=(float rhs);
-		Vec2& operator/=(float rhs);
+		Vec2& operator += (const Vec2& rhs);
+		Vec2& operator -= (const Vec2& rhs);
+		Vec2& operator *= (float rhs);
+		Vec2& operator /= (float rhs);
 	};
 
 	// Unary operators
-	Vec2 operator-(const Vec2& lhs);
+	Vec2 operator - (const Vec2& lhs);
 
 	// Binary operators
 	Vec2 operator+(const Vec2& lhs, const Vec2& rhs);
@@ -43,4 +45,7 @@ namespace poseidon
 	Vec2 operator/(const Vec2& lhs, float rhs);
 	Vec2 operator/(float lhs, const Vec2& rhs);
 	Vec2 operator/(const Vec2& lhs, const Vec2& rhs);
+
+	// Print
+	std::ostream& operator<<(std::ostream& outs, const Vec2& v);
 }
