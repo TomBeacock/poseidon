@@ -29,6 +29,15 @@ namespace poseidon
 			lhs.z * rhs.z;
 	}
 
+	Vec3 Vec3::cross(const Vec3& lhs, const Vec3& rhs)
+	{
+		return Vec3(
+			lhs.y * rhs.z - lhs.z * rhs.y,
+			lhs.z * rhs.x - lhs.x * rhs.z,
+			lhs.x * rhs.y - lhs.y * rhs.x
+		);
+	}
+
 	float Vec3::sqrMagnitude()
 	{
 		return

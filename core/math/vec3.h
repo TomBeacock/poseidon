@@ -21,6 +21,7 @@ namespace poseidon
 
 		static float distance(const Vec3& lhs, const Vec3& rhs);
 		static float dot(const Vec3& lhs, const Vec3& rhs);
+		static Vec3 cross(const Vec3& lhs, const Vec3& rhs);
 
 		float sqrMagnitude();
 		float magnitude();
