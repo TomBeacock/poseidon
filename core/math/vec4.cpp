@@ -42,9 +42,9 @@ namespace poseidon
 	void Vec4::normalize()
 	{
 		float mag = magnitude();
-		if(mag == 0.0) { return; }
+		if(mag == 0.0f) { return; }
 
-		float scale = 1.0 / mag;
+		float scale = 1.0f / mag;
 		this->x *= scale;
 		this->y *= scale;
 		this->z *= scale;
@@ -54,9 +54,9 @@ namespace poseidon
 	Vec4 Vec4::normalized() const
 	{
 		float mag = magnitude();
-		if (mag == 0.0) { return zero; }
+		if (mag == 0.0f) { return zero; }
 
-		float scale = 1.0 / mag;
+		float scale = 1.0f / mag;
 		return Vec4(
 			this->x * scale,
 			this->y * scale,
