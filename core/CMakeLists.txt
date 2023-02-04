@@ -2,7 +2,13 @@
 
 find_package(SDL2 REQUIRED)
 
-add_library (core "poseidon.h" "system/application.h" "system/application.cpp")
+add_library (core
+"poseidon.h"
+"system/application.h"
+"system/application.cpp"
+"math/vec2.h"
+"math/vec2.cpp"
+"math/vec3.h" "math/vec3.cpp" "math/vec4.h" "math/vec4.cpp")
 
 target_link_libraries(core SDL2::SDL2 glad)
 target_include_directories(core PUBLIC "${CMAKE_SOURCE_DIR}/extern/glad/include")
