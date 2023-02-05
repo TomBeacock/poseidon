@@ -10,7 +10,7 @@ namespace poseidon
 	struct Mat4
 	{
 	private:
-		float values[4 * 4];
+		float values_[4 * 4];
 
 	public:
 		Mat4(
@@ -32,7 +32,8 @@ namespace poseidon
 		static Mat4 orthographic(float left, float right, float top, float bottom, float near = -1.0f, float far = 1.0f);
 		static Mat4 perspective(float fov, float aspect, float near = -1.0f, float far = 1.0f);
 
-		inline float operator()(unsigned int x, unsigned int y) const;
+		inline const float* const values() const { return values_; }
+		inline float operator()(unsigned int x, unsigned int y) const { return values_[x * 4 + y]; }
 
 		// Assignment operators
 		Mat4& operator+=(const Mat4& rhs);

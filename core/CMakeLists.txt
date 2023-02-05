@@ -8,7 +8,11 @@ add_library (core
 "math/vec2.h" "math/vec2.cpp"
 "math/vec3.h" "math/vec3.cpp"
 "math/vec4.h" "math/vec4.cpp"
-"math/mat4.h" "math/mat4.cpp")
+"math/mat4.h" "math/mat4.cpp"
+"rendering/array_buffer.h" "rendering/array_buffer.cpp"
+"rendering/index_buffer.h" "rendering/index_buffer.cpp"
+"rendering/vertex_array.h" "rendering/vertex_array.cpp"
+"rendering/shader.h" "rendering/shader.cpp")
 
 target_link_libraries(core SDL2::SDL2 glad)
 target_include_directories(core PUBLIC
