@@ -91,13 +91,79 @@ void main() {
 			{ 1.0f, 1.0f, 1.0f }
 		);
 		Mat4 view = Mat4::translation(-Vec3(0.0f, 0.0f, -5.0f));
-		Mat4 projection = Mat4::perspective(std::numbers::pi / 2.0f, 16.0f / 9.0f, 0.1f, 10.0f);
+		Mat4 projection = Mat4::persp(std::numbers::pi / 2.0f, 16.0f / 9.0f, 0.1f, 10.0f);
 
 		shader.setMat4("u_model", model);
 		shader.setMat4("u_viewProjection", projection * view);
 
 		// Example textured quad
+		// Create vertex buffer
+		float quadVertices[4 * 5] = {
+			-0.5, -0.5, -0.0, 0.0f, 0.0f,
+			0.5, -0.5, -0.0, 1.0f, 0.0f,
+			0.5, 0.5, -0.0, 1.0f, 1.0f,
+			-0.5, 0.5, -0.0, 0.0f, 1.0f
+		};
+		ArrayBuffer quadVbo(
+			&quadVertices,
+			sizeof(quadVertices),
+			BufferLayout({ DataType::Vec3, DataType::Vec2 })
+		);
+
+		// Create index buffer
+		std::array<uint32_t, 6> quadIndices = { 0, 1, 2, 0, 2, 3 };
+		IndexBuffer quadIbo(quadIndices.data(), quadIndices.size());
+
+		// Create vertex array
+		VertexArray quadVao;
+		quadVao.addVertexBuffer(quadVbo);
+		quadVao.setIndexBuffer(quadIbo);
+
+		// Create shader
+		const char* quadVertexShader = R"(#version 330 core
+layout(location = 0) in vec3 v_in_pos;
+layout(location = 1) in vec2 v_in_uv;
+
+out vec2 v_out_uv;
+
+uniform mat4 u_model;
+uniform mat4 u_viewProjection;
+
+void main() {
+	v_out_uv = v_in_uv;
+	gl_Position = u_viewProjection * u_model * vec4(v_in_pos, 1.0);
+})";
+
+		const char* quadFragmentShader = R"(#version 330 core
+in vec2 v_out_uv;
+
+out vec4 f_out_color;
+
+uniform sampler2D u_texture;
+
+void main() {
+	f_out_color = texture(u_texture, v_out_uv);
+})";
+
+		Shader quadShader(quadVertexShader, quadFragmentShader);
+		quadShader.bind();
+
+		// Load texture
 		Texture texture(RES("trident.png"));
+		texture.slot(0);
+
+		// Set uniforms
+		Mat4 quadModel = Mat4::transformation(
+			{ 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 0.0f },
+			{ 1.0f, 1.0f, 1.0f }
+		);
+		Mat4 quadView = Mat4::translation(-Vec3(0.0f, 0.0f, -5.0f));
+		Mat4 quadProjection = Mat4::ortho(16.0f, 9.0f, 0.1f, 10.0f);
+
+		quadShader.setMat4("u_model", quadModel);
+		quadShader.setMat4("u_viewProjection", quadProjection* quadView);
+		quadShader.setInt("u_texture", 0);
 
 		Renderer::setClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 
@@ -115,15 +181,21 @@ void main() {
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			Renderer::clear();
 
+			// Rotate and render cube
 			Mat4 model = Mat4::transformation(
 				{ 0.0f, 0.0f, 0.0f },
 				{ 0.0f, angle, 0.0f },
 				{ 1.0f, 1.0f, 1.0f }
 			);
 			angle += std::numbers::pi / 180.0f;
+			shader.bind();
 			shader.setMat4("u_model", model);
 
 			Renderer::drawIndexed(vertexArray, 6 * 6);
+
+			// Render textured quad
+			quadShader.bind();
+			Renderer::drawIndexed(quadVao, 6);
 
 			SDL_GL_SwapWindow(window);
 		}
