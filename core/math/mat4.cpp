@@ -12,7 +12,7 @@ namespace poseidon
 		float m01, float m11, float m21, float m31,
 		float m02, float m12, float m22, float m32,
 		float m03, float m13, float m23, float m33
-	) : values {
+	) : values_ {
 		m00, m01, m02, m03,
 		m10, m11, m12, m13,
 		m20, m21, m22, m23,
@@ -124,29 +124,24 @@ namespace poseidon
 		);
 	}
 
-	float Mat4::operator()(unsigned int x, unsigned int y) const
-	{
-		return this->values[x * 4 + y];
-	}
-
 	Mat4& Mat4::operator+=(const Mat4& rhs)
 	{
 		for(int i = 0; i < 4 * 4; ++i)
-			this->values[i] += rhs.values[i];
+			this->values_[i] += rhs.values_[i];
 		return *this;
 	}
 
 	Mat4& Mat4::operator-=(const Mat4& rhs)
 	{
 		for (int i = 0; i < 4 * 4; ++i)
-			this->values[i] -= rhs.values[i];
+			this->values_[i] -= rhs.values_[i];
 		return *this;
 	}
 
 	Mat4& Mat4::operator*=(float rhs)
 	{
 		for (int i = 0; i < 4 * 4; ++i)
-			this->values[i] *= rhs;
+			this->values_[i] *= rhs;
 		return *this;
 	}
 
@@ -154,7 +149,7 @@ namespace poseidon
 	{
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
-				this->values[j * 4 + i] =
+				this->values_[j * 4 + i] =
 					(*this)(0, i) * rhs(j, 0) +
 					(*this)(1, i) * rhs(j, 1) +
 					(*this)(2, i) * rhs(j, 2) +
@@ -167,7 +162,7 @@ namespace poseidon
 	Mat4& Mat4::operator/=(float rhs)
 	{
 		for (int i = 0; i < 4 * 4; ++i)
-			this->values[i] /= rhs;
+			this->values_[i] /= rhs;
 		return *this;
 	}
 
@@ -175,7 +170,7 @@ namespace poseidon
 	{
 		Mat4 result = lhs;
 		for (int i = 0; i < 4 * 4; ++i)
-			result.values[i] = -lhs.values[i];
+			result.values_[i] = -lhs.values_[i];
 		return result;
 	}
 
@@ -183,7 +178,7 @@ namespace poseidon
 	{
 		Mat4 result = lhs;
 		for (int i = 0; i < 4 * 4; ++i)
-			result.values[i] += rhs.values[i];
+			result.values_[i] += rhs.values_[i];
 		return result;
 	}
 
@@ -191,7 +186,7 @@ namespace poseidon
 	{
 		Mat4 result = lhs;
 		for (int i = 0; i < 4 * 4; ++i)
-			result.values[i] -= rhs.values[i];
+			result.values_[i] -= rhs.values_[i];
 		return result;
 	}
 
@@ -199,7 +194,7 @@ namespace poseidon
 	{
 		Mat4 result = lhs;
 		for (int i = 0; i < 4 * 4; ++i)
-			result.values[i] *= rhs;
+			result.values_[i] *= rhs;
 		return result;
 	}
 
@@ -207,7 +202,7 @@ namespace poseidon
 	{
 		Mat4 result = rhs;
 		for (int i = 0; i < 4 * 4; ++i)
-			result.values[i] *= lhs;
+			result.values_[i] *= lhs;
 		return result;
 	}
 
@@ -216,7 +211,7 @@ namespace poseidon
 		Mat4 result = Mat4::zero;
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
-				result.values[j * 4 + i] =
+				result.values_[j * 4 + i] =
 					lhs(0, i) * rhs(j, 0) +
 					lhs(1, i) * rhs(j, 1) +
 					lhs(2, i) * rhs(j, 2) +
@@ -240,7 +235,7 @@ namespace poseidon
 	{
 		Mat4 result = lhs;
 		for (int i = 0; i < 4 * 4; ++i)
-			result.values[i] /= rhs;
+			result.values_[i] /= rhs;
 		return result;
 	}
 
@@ -248,7 +243,7 @@ namespace poseidon
 	{
 		Mat4 result = rhs;
 		for (int i = 0; i < 4 * 4; ++i)
-			result.values[i] /= lhs;
+			result.values_[i] /= lhs;
 		return result;
 	}
 
