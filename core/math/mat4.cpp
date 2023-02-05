@@ -91,17 +91,17 @@ namespace poseidon
 			Mat4::scale(scale);
 	}
 
-	Mat4 Mat4::orthographic(float width, float height, float near, float far)
+	Mat4 Mat4::ortho(float width, float height, float near, float far)
 	{
 		float halfWidth = width / 2.0f;
 		float halfHeight = height / 2.0f;
-		return Mat4::orthographic(
+		return Mat4::orthoOffCenter(
 			-halfWidth, halfWidth,
 			halfHeight, -halfHeight,
 			near, far);
 	}
 
-	Mat4 Mat4::orthographic(float left, float right, float top, float bottom, float near, float far)
+	Mat4 Mat4::orthoOffCenter(float left, float right, float top, float bottom, float near, float far)
 	{
 		float range = 1.0f / (far - near);
 		return Mat4(
@@ -112,7 +112,7 @@ namespace poseidon
 		);
 	}
 
-	Mat4 Mat4::perspective(float fov, float aspect, float near, float far)
+	Mat4 Mat4::persp(float fov, float aspect, float near, float far)
 	{
 		float yScale = 1.0f / tan(fov * 0.5f);
 		float q = far / (far - near);
