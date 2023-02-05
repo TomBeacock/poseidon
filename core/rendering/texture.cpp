@@ -26,7 +26,7 @@ namespace poseidon
 
 		// Create OpenGL texture
 		glCreateTextures(GL_TEXTURE_2D, 1, &id_);
-		glBindBuffer(GL_TEXTURE_2D, id_);
+		glBindTexture(GL_TEXTURE_2D, id_);
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
@@ -48,7 +48,7 @@ namespace poseidon
 	{
 		// Create OpenGL texture
 		glCreateTextures(GL_TEXTURE_2D, 1, &id_);
-		glBindBuffer(GL_TEXTURE_2D, id_);
+		glBindTexture(GL_TEXTURE_2D, id_);
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,

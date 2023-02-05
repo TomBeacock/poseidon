@@ -28,9 +28,9 @@ namespace poseidon
 		static Mat4 rotation(float yaw, float pitch, float roll);
 		static Mat4 scale(const Vec3& scale);
 		static Mat4 transformation(const Vec3& translation, const Vec3& rotation, const Vec3& scale);
-		static Mat4 orthographic(float width, float height, float near = -1.0f, float far = 1.0f);
-		static Mat4 orthographic(float left, float right, float top, float bottom, float near = -1.0f, float far = 1.0f);
-		static Mat4 perspective(float fov, float aspect, float near = -1.0f, float far = 1.0f);
+		static Mat4 ortho(float width, float height, float near = -1.0f, float far = 1.0f);
+		static Mat4 orthoOffCenter(float left, float right, float top, float bottom, float near = -1.0f, float far = 1.0f);
+		static Mat4 persp(float fov, float aspect, float near = -1.0f, float far = 1.0f);
 
 		inline const float* const values() const { return values_; }
 		inline float operator()(unsigned int x, unsigned int y) const { return values_[x * 4 + y]; }
