@@ -6,7 +6,9 @@
 #include <numbers>
 
 #include "math/vec3.h"
+#include "math/vec4.h"
 #include "math/mat4.h"
+#include "rendering/renderer.h"
 #include "rendering/array_buffer.h"
 #include "rendering/index_buffer.h"
 #include "rendering/vertex_array.h"
@@ -88,6 +90,8 @@ void main() {
 		shader.setMat4("u_model", model);
 		shader.setMat4("u_viewProjection", projection * view);
 
+		Renderer::setClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
+
 		bool running = true;
 		float angle = 0.0f;
 		while (running)
@@ -100,7 +104,7 @@ void main() {
 			}
 
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-			glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+			Renderer::clear();
 
 			Mat4 model = Mat4::transformation(
 				{ 0.0f, 0.0f, 0.0f },
@@ -110,8 +114,7 @@ void main() {
 			angle += std::numbers::pi / 180.0f;
 			shader.setMat4("u_model", model);
 
-			vertexArray.bind();
-			glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, nullptr);
+			Renderer::drawIndexed(vertexArray, 6 * 6);
 
 			SDL_GL_SwapWindow(window);
 		}

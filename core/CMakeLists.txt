@@ -9,6 +9,7 @@ add_library (core
 "math/vec3.h" "math/vec3.cpp"
 "math/vec4.h" "math/vec4.cpp"
 "math/mat4.h" "math/mat4.cpp"
+"rendering/renderer.h" "rendering/renderer.cpp"
 "rendering/array_buffer.h" "rendering/array_buffer.cpp"
 "rendering/index_buffer.h" "rendering/index_buffer.cpp"
 "rendering/vertex_array.h" "rendering/vertex_array.cpp"
