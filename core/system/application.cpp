@@ -1,6 +1,7 @@
 #include "application.h"
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <glad/gl.h>
 #include <array>
 #include <numbers>
@@ -13,12 +14,16 @@
 #include "rendering/index_buffer.h"
 #include "rendering/vertex_array.h"
 #include "rendering/shader.h"
+#include "rendering/texture.h"
+
+#define RES(file) RES_DIR file
 
 namespace poseidon
 {
 	void Application::execute()
 	{
 		SDL_Init(SDL_INIT_VIDEO);
+		IMG_Init(IMG_INIT_PNG);
 
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
@@ -31,6 +36,7 @@ namespace poseidon
 
 		gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
 
+		// Cube example
 		// Create vertex buffer
 		float vertices[3 * 4 * 6] = {
 			-0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5,
@@ -89,6 +95,9 @@ void main() {
 
 		shader.setMat4("u_model", model);
 		shader.setMat4("u_viewProjection", projection * view);
+
+		// Example textured quad
+		Texture texture(RES("trident.png"));
 
 		Renderer::setClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 
