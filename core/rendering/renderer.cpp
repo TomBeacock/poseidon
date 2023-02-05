@@ -8,6 +8,12 @@
 
 namespace poseidon
 {
+	void Renderer::init()
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
 	void Renderer::setViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
 	{
 		glViewport(x, y, width, height);

@@ -36,6 +36,8 @@ namespace poseidon
 
 		gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
 
+		Renderer::init();
+
 		// Cube example
 		// Create vertex buffer
 		float vertices[3 * 4 * 6] = {
