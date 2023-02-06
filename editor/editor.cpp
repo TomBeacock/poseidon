@@ -1,12 +1,13 @@
-#include <SDL.h>
+#include "editor.h"
 
-#include <poseidon.h>
+#include <memory>
 
-using namespace poseidon;
+#include "sandbox_layer.h"
 
-int main(int argc, char* argv[])
+namespace editor
 {
-	Application app;
-	app.execute();
-	return 0;
+	Editor::Editor()
+	{
+		addLayer(std::make_unique<SandboxLayer>());
+	}
 }
