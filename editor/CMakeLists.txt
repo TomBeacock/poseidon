@@ -16,6 +16,7 @@ target_link_libraries(editor
 )
 
 target_include_directories(editor PUBLIC "${CMAKE_SOURCE_DIR}/core/include")
+target_compile_definitions(core PUBLIC RES_DIR="${CMAKE_SOURCE_DIR}/res/")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET editor PROPERTY CXX_STANDARD 20)
