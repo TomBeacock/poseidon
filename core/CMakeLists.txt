@@ -4,6 +4,8 @@
 add_library (core
 "poseidon.h"
 "system/application.h" "system/application.cpp"
+"system/layer.h"
+"system/layer_stack.h" "system/layer_stack.cpp"
 "math/vec2.h" "math/vec2.cpp"
 "math/vec3.h" "math/vec3.cpp"
 "math/vec4.h" "math/vec4.cpp"
