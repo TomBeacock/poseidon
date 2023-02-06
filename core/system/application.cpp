@@ -6,6 +6,7 @@
 #include <array>
 #include <numbers>
 
+#include "layer.h"
 #include "math/vec3.h"
 #include "math/vec4.h"
 #include "math/mat4.h"
@@ -176,11 +177,17 @@ void main() {
 			SDL_Event event;
 			while (SDL_PollEvent(&event))
 			{
+				// Send event to layers
+				if (layerStack_.onEvent(event))
+					continue;
+
+				// Default handling
 				if (event.type == SDL_QUIT)
 					running = false;
 			}
 
-			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			layerStack_.onUpdate();
+
 			Renderer::clear();
 
 			// Rotate and render cube
