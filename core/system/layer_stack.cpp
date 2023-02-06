@@ -25,5 +25,6 @@ namespace poseidon
 	void LayerStack::add(std::unique_ptr<Layer> layer)
 	{
 		layerStack_.push_back(std::move(layer));
+		layerStack_.back()->onStart();
 	}
 }
