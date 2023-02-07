@@ -33,7 +33,7 @@ namespace poseidon
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-		window_ = SDL_CreateWindow("Window Title", 100, 100, 1280, 720, SDL_WINDOW_OPENGL);
+		window_ = SDL_CreateWindow("Window Title", 100, 100, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 		SDL_GLContext glContext = SDL_GL_CreateContext(window_);
 
 		gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
@@ -56,6 +56,14 @@ namespace poseidon
 			SDL_Event event;
 			while (SDL_PollEvent(&event))
 			{
+				// Required handling
+				if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED)
+				{
+					uint32_t width = event.window.data1;
+					uint32_t height = event.window.data2;
+					Renderer::setViewport(0, 0, width, height);
+				}
+
 				// Send event to layers
 				if (layerStack_.onEvent(event))
 					continue;
