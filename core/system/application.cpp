@@ -11,6 +11,7 @@
 #include "math/vec4.h"
 #include "math/mat4.h"
 #include "rendering/renderer.h"
+#include "rendering/renderer2d.h"
 #include "rendering/array_buffer.h"
 #include "rendering/index_buffer.h"
 #include "rendering/vertex_array.h"
@@ -38,6 +39,7 @@ namespace poseidon
 		gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
 
 		Renderer::init();
+		Renderer2D::init();
 	}
 
 	Application::~Application()
