@@ -1,5 +1,7 @@
 #pragma once
 
+#include "math/mat4.h"
+
 namespace poseidon
 {
 	struct Vec2;
@@ -20,7 +22,7 @@ namespace poseidon
 	public:
 		static void init();
 
-		static void drawRect(const Bounds& bounds, const Vec4& color);
-		static void drawRect(const Bounds& bounds, const Bounds& uv, const Texture& texture, const Vec4& tint);
+		static void drawRect(const Bounds& bounds, const Vec4& color, const Mat4& transform = Mat4::identity);
+		static void drawRect(const Bounds& bounds, const Bounds& uv, const Texture& texture, const Vec4& tint, const Mat4& transform = Mat4::identity);
 	};
 }
