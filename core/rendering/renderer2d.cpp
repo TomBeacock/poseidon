@@ -6,7 +6,6 @@
 #include "math/vec2.h"
 #include "math/vec3.h"
 #include "math/vec4.h"
-#include "math/mat4.h"
 #include "renderer.h"
 #include "array_buffer.h"
 #include "index_buffer.h"
@@ -66,13 +65,14 @@ out vec2 v_out_uv;
 out vec4 v_out_color;
 flat out int v_out_texture;
 
+uniform mat4 u_model;
 uniform mat4 u_projection;
 
 void main() {
 	v_out_uv = v_in_uv;
 	v_out_color = v_in_color;
 	v_out_texture = v_in_texture;
-	gl_Position = u_projection * vec4(v_in_pos, 0.0, 1.0);
+	gl_Position = u_projection * u_model * vec4(v_in_pos, 0.0, 1.0);
 })";
 
 		const char* fragmentShader = R"(#version 330 core
@@ -101,7 +101,7 @@ void main() {
 		data.shader->setInt("u_texture", 0);
 	}
 
-	void Renderer2D::drawRect(const Bounds& bounds, const Vec4& color)
+	void Renderer2D::drawRect(const Bounds& bounds, const Vec4& color, const Mat4& transform)
 	{
 		// Create vertex buffer
 		QuadVertex quadVertices[4] = {
@@ -127,10 +127,11 @@ void main() {
 
 		data.texture->slot(0);
 		data.shader->bind();
+		data.shader->setMat4("u_model", transform);
 		Renderer::drawIndexed(quadVao, 6);
 	}
 
-	void Renderer2D::drawRect(const Bounds& bounds, const Bounds& uv, const Texture& texture, const Vec4& tint)
+	void Renderer2D::drawRect(const Bounds& bounds, const Bounds& uv, const Texture& texture, const Vec4& tint, const Mat4& transform)
 	{
 		// Create vertex buffer
 		QuadVertex quadVertices[4] = {
@@ -156,6 +157,7 @@ void main() {
 
 		texture.slot(0);
 		data.shader->bind();
+		data.shader->setMat4("u_model", transform);
 		Renderer::drawIndexed(quadVao, 6);
 	}
 }

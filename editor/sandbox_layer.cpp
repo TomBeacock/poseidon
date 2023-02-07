@@ -100,8 +100,10 @@ void main() {
 		cubeShader_->setMat4("u_model", model);
 		Renderer::drawIndexed(*cubeVao_, 6 * 6);
 
+		Mat4 rectModel = Mat4::rotation(0.0f, 0.0f, angle_);
+
 		// Render textured quad
-		Renderer2D::drawRect(Bounds(Vec2::zero, { 2.0f, 10.0f }), { 0.5f, 0.5f, 0.0f, 1.0f });
+		Renderer2D::drawRect(Bounds(Vec2::zero, { 2.0f, 10.0f }), { 0.5f, 0.5f, 0.0f, 1.0f }, rectModel);
 		Renderer2D::drawRect(Bounds(Vec2::zero, { 5.0f, 5.0f }, { 0.5f, 0.5f }), Bounds(Vec2::zero, Vec2::one), *quadTexture_, Vec4::one);
 	}
 
