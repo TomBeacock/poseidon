@@ -1,6 +1,9 @@
 #include "shader.h"
 
 #include <glad/gl.h>
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
 #include "math/vec2.h"
 #include "math/vec3.h"
@@ -9,14 +12,16 @@
 
 namespace poseidon
 {
-	Shader::Shader(const std::string& vertexSource, const std::string& fragmentSource)
+	Shader::Shader(const std::string& vertexFilepath, const std::string& fragmentFilepath)
 	{
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		std::string vertexSource = readShader(vertexFilepath);
 		const char* vertexSourcePtr = vertexSource.c_str();
 		glShaderSource(vertexShader, 1, &vertexSourcePtr, nullptr);
 		glCompileShader(vertexShader);
 
 		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		std::string fragmentSource = readShader(fragmentFilepath);
 		const char* fragmentSourcePtr = fragmentSource.c_str();
 		glShaderSource(fragmentShader, 1, &fragmentSourcePtr, nullptr);
 		glCompileShader(fragmentShader);
@@ -82,5 +87,13 @@ namespace poseidon
 	{
 		GLint location = glGetUniformLocation(id_, name);
 		glUniform1i(location, value);
+	}
+
+	std::string Shader::readShader(const std::string& filepath)
+	{
+		std::ifstream file(filepath);
+		std::stringstream ss;
+		ss << file.rdbuf();
+		return ss.str();
 	}
 }
