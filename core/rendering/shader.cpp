@@ -14,11 +14,21 @@ namespace poseidon
 {
 	Shader::Shader(const std::string& vertexFilepath, const std::string& fragmentFilepath)
 	{
+		int success;
+		GLchar log[1024];
+
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		std::string vertexSource = readShader(vertexFilepath);
 		const char* vertexSourcePtr = vertexSource.c_str();
 		glShaderSource(vertexShader, 1, &vertexSourcePtr, nullptr);
 		glCompileShader(vertexShader);
+
+		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			glGetShaderInfoLog(vertexShader, 1024, nullptr, log);
+			std::cout << log << std::endl;
+		}
 
 		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		std::string fragmentSource = readShader(fragmentFilepath);
@@ -26,10 +36,24 @@ namespace poseidon
 		glShaderSource(fragmentShader, 1, &fragmentSourcePtr, nullptr);
 		glCompileShader(fragmentShader);
 
+		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			glGetShaderInfoLog(fragmentShader, 1024, nullptr, log);
+			std::cout << log << std::endl;
+		}
+
 		id_ = glCreateProgram();
 		glAttachShader(id_, vertexShader);
 		glAttachShader(id_, fragmentShader);
 		glLinkProgram(id_);
+
+		glGetProgramiv(id_, GL_LINK_STATUS, &success);
+		if (!success)
+		{
+			glGetProgramInfoLog(id_, 1024, nullptr, log);
+			std::cout << log << std::endl;
+		}
 	}
 
 	Shader::~Shader()
