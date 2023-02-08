@@ -4,8 +4,8 @@
 
 namespace poseidon
 {
-	Vec4::Vec4(float x, float y, float z, float w) :
-		x(x), y(y), z(z), w(w) {}
+	Vec4::Vec4() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
+	Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
 	const Vec4 Vec4::zero = Vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	const Vec4 Vec4::one = Vec4(1.0f, 1.0f, 1.0f, 1.0f);

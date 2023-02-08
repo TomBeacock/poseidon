@@ -10,6 +10,7 @@ namespace poseidon
 		float y;
 		float z;
 
+		Vec3();
 		Vec3(float x, float y, float z);
 
 		static const Vec3 zero;

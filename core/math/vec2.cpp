@@ -4,8 +4,8 @@
 
 namespace poseidon
 {
-	Vec2::Vec2(float x, float y) :
-		x(x), y(y) {}
+	Vec2::Vec2() : x(0.0f), y(0.0f) {}
+	Vec2::Vec2(float x, float y) : x(x), y(y) {}
 
 	const Vec2 Vec2::zero = Vec2(0.0f, 0.0f);
 	const Vec2 Vec2::one = Vec2(1.0f, 1.0f);

@@ -11,6 +11,7 @@ namespace poseidon
 		float z;
 		float w;
 
+		Vec4();
 		Vec4(float x, float y, float z, float w);
 
 		static const Vec4 zero;

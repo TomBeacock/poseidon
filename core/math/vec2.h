@@ -9,6 +9,7 @@ namespace poseidon
 		float x;
 		float y;
 
+		Vec2();
 		Vec2(float x, float y);
 
 		static const Vec2 zero;
