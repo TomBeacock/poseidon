@@ -4,6 +4,9 @@
 
 namespace poseidon
 {
+	struct Vec2;
+	struct Vec3;
+
 	struct Vec4
 	{
 		float x;
@@ -31,6 +34,10 @@ namespace poseidon
 		Vec4& operator-=(const Vec4& rhs);
 		Vec4& operator*=(float rhs);
 		Vec4& operator/=(float rhs);
+
+		// Conversion operators
+		operator Vec2();
+		operator Vec3();
 	};
 
 	// Unary operators
