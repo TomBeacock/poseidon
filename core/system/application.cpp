@@ -5,6 +5,7 @@
 #include <glad/gl.h>
 #include <array>
 #include <numbers>
+#include <iostream>
 
 #include "layer.h"
 #include "math/vec3.h"
@@ -22,7 +23,7 @@
 
 namespace poseidon
 {
-	Application::Application() : window_(nullptr)
+	Application::Application() : window_(nullptr), lastFrameTime_(0)
 	{
 		SDL_Init(SDL_INIT_VIDEO);
 		IMG_Init(IMG_INIT_PNG);
@@ -53,6 +54,10 @@ namespace poseidon
 		bool running = true;
 		while (running)
 		{
+			uint64_t currentTime = SDL_GetTicks64();
+			float deltaTime = (currentTime - lastFrameTime_) / 1000.0f;
+			lastFrameTime_ = currentTime;
+
 			SDL_Event event;
 			while (SDL_PollEvent(&event))
 			{
@@ -75,7 +80,7 @@ namespace poseidon
 
 			Renderer::clear();
 
-			layerStack_.onUpdate();
+			layerStack_.onUpdate(deltaTime);
 
 			SDL_GL_SwapWindow(window_);
 		}

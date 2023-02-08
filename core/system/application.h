@@ -20,5 +20,6 @@ namespace poseidon
 	private:
 		LayerStack layerStack_;
 		SDL_Window* window_;
+		uint64_t lastFrameTime_;
 	};
 }

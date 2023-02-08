@@ -11,7 +11,7 @@ namespace poseidon
 		virtual ~Layer() = default;
 
 		virtual void onStart() = 0;
-		virtual void onUpdate() = 0;
+		virtual void onUpdate(float deltaTime) = 0;
 		virtual bool onEvent(const SDL_Event& event) = 0;
 	};
 }

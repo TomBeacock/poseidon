@@ -4,11 +4,11 @@
 
 namespace poseidon
 {
-	void LayerStack::onUpdate()
+	void LayerStack::onUpdate(float deltaTime)
 	{
 		for (auto& layer : layerStack_)
 		{
-			layer->onUpdate();
+			layer->onUpdate(deltaTime);
 		}
 	}
 
