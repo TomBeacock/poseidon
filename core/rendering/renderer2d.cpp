@@ -165,22 +165,33 @@ namespace poseidon
 
 	void Renderer2D::drawRect(const Bounds& bounds, const Vec4& color, const Mat4& transform)
 	{
+		Vec4 pos1 = transform * Vec4(bounds.left, bounds.bottom, 0.0f, 1.0f);
+		Vec4 pos2 = transform * Vec4(bounds.right, bounds.bottom, 0.0f, 1.0f);
+		Vec4 pos3 = transform * Vec4(bounds.right, bounds.top, 0.0f, 1.0f);
+		Vec4 pos4 = transform * Vec4(bounds.left, bounds.top, 0.0f, 1.0f);
+
 		data.quadBatch->addQuad(
-			{ { bounds.left, bounds.bottom, 0.0f }, { 0.0f, 0.0f }, color, 0 },
-			{ { bounds.right, bounds.bottom, 0.0f }, { 1.0f, 0.0f }, color, 0 },
-			{ { bounds.right, bounds.top, 0.0f }, { 1.0f, 1.0f }, color, 0 },
-			{ { bounds.left, bounds.top, 0.0f }, { 0.0f, 1.0f }, color, 0 }
+			{ pos1, { 0.0f, 0.0f }, color, 0 },
+			{ pos2, { 1.0f, 0.0f }, color, 0 },
+			{ pos3, { 1.0f, 1.0f }, color, 0 },
+			{ pos4, { 0.0f, 1.0f }, color, 0 }
 		);
 	}
 
 	void Renderer2D::drawRect(const Bounds& bounds, const Bounds& uv, const std::shared_ptr<Texture>& texture, const Vec4& tint, const Mat4& transform)
 	{
 		uint32_t slot = data.quadBatch->addTexture(texture);
+
+		Vec4 pos1 = transform * Vec4(bounds.left, bounds.bottom, 0.0f, 1.0f);
+		Vec4 pos2 = transform * Vec4(bounds.right, bounds.bottom, 0.0f, 1.0f);
+		Vec4 pos3 = transform * Vec4(bounds.right, bounds.top, 0.0f, 1.0f);
+		Vec4 pos4 = transform * Vec4(bounds.left, bounds.top, 0.0f, 1.0f);
+
 		data.quadBatch->addQuad(
-			{ { bounds.left, bounds.bottom, 0.0f }, { uv.left, uv.bottom }, tint, slot },
-			{ { bounds.right, bounds.bottom, 0.0f }, { uv.right, uv.bottom }, tint, slot },
-			{ { bounds.right, bounds.top, 0.0f }, { uv.right, uv.top }, tint, slot },
-			{ { bounds.left, bounds.top, 0.0f }, { uv.left, uv.top }, tint, slot }
+			{ pos1, { uv.left, uv.bottom }, tint, slot },
+			{ pos2, { uv.right, uv.bottom }, tint, slot },
+			{ pos3, { uv.right, uv.top }, tint, slot },
+			{ pos4, { uv.left, uv.top }, tint, slot }
 		);
 	}
 }
