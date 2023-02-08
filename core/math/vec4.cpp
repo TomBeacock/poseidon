@@ -2,10 +2,13 @@
 
 #include <cmath>
 
+#include "vec2.h"
+#include "vec3.h"
+
 namespace poseidon
 {
-	Vec4::Vec4(float x, float y, float z, float w) :
-		x(x), y(y), z(z), w(w) {}
+	Vec4::Vec4() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
+	Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
 	const Vec4 Vec4::zero = Vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	const Vec4 Vec4::one = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -99,6 +102,16 @@ namespace poseidon
 		this->z /= rhs;
 		this->w /= rhs;
 		return *this;
+	}
+
+	Vec4::operator Vec2()
+	{
+		return Vec2(x, y);
+	}
+
+	Vec4::operator Vec3()
+	{
+		return Vec3(x, y, z);
 	}
 
 	Vec4 operator-(const Vec4& lhs)

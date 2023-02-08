@@ -38,92 +38,160 @@ namespace poseidon
 
 	struct QuadVertex
 	{
-		Vec2 position;
+		Vec3 position;
 		Vec2 uv;
 		Vec4 color;
-		int textureSlot;
+		uint32_t textureSlot;
 	};
+
+	class QuadBatch
+	{
+	public:
+		QuadBatch();
+
+		void addQuad(QuadVertex bottomLeft, QuadVertex bottomRight, QuadVertex topRight, QuadVertex topLeft);
+		uint32_t addTexture(const std::shared_ptr<Texture>& texture);
+		void draw();
+		void reset();
+
+	private:
+		static const uint32_t maxQuads_ = 1000;
+		static const uint32_t maxTextures_ = 32;
+
+		std::unique_ptr<VertexArray> vao_;
+		std::unique_ptr<ArrayBuffer> vbo_;
+		std::unique_ptr<IndexBuffer> ibo_;
+		std::unique_ptr<QuadVertex[]> vertices_;
+		std::array<std::shared_ptr<Texture>, maxTextures_> textures_;
+		uint32_t currentQuads_;
+		uint32_t currentTextures_;
+	};
+
+	QuadBatch::QuadBatch() :
+		vertices_(new QuadVertex[maxQuads_ * 4]),
+		currentQuads_(0),
+		currentTextures_(1)
+	{
+		vbo_ = std::make_unique<ArrayBuffer>(
+			maxQuads_ * 4,
+			BufferLayout({ DataType::Vec3, DataType::Vec2, DataType::Vec4, DataType::Int })
+		);
+
+		uint32_t* indices = new uint32_t[maxQuads_ * 6];
+		for (int q = 0, i = 0, v = 0; q < maxQuads_; ++q, i += 6, v += 4) {
+			indices[i + 0] = v + 0;
+			indices[i + 1] = v + 1;
+			indices[i + 2] = v + 2;
+			indices[i + 3] = v + 0;
+			indices[i + 4] = v + 2;
+			indices[i + 5] = v + 3;
+		}
+		ibo_ = std::make_unique<IndexBuffer>(indices, maxQuads_ * 6);
+		delete[] indices;
+
+		vao_ = std::make_unique<VertexArray>();
+		vao_->addVertexBuffer(*vbo_);
+		vao_->setIndexBuffer(*ibo_);
+	}
+
+	void QuadBatch::addQuad(QuadVertex bottomLeft, QuadVertex bottomRight, QuadVertex topRight, QuadVertex topLeft)
+	{
+		size_t index = currentQuads_ * 4;
+		vertices_[index + 0] = bottomLeft;
+		vertices_[index + 1] = bottomRight;
+		vertices_[index + 2] = topRight;
+		vertices_[index + 3] = topLeft;
+		++currentQuads_;
+	}
+
+	uint32_t QuadBatch::addTexture(const std::shared_ptr<Texture>& texture)
+	{
+		auto it = std::find(textures_.begin(), textures_.end(), texture);
+		if (it != textures_.end())
+			return it - textures_.begin();
+		texture->slot(currentTextures_);
+		++currentTextures_;
+		return currentTextures_ - 1;
+	}
+
+	void QuadBatch::draw()
+	{
+		vbo_->setData(vertices_.get(), currentQuads_ * sizeof(QuadVertex) * 4);
+		Renderer::drawIndexed(*vao_, currentQuads_ * 6);
+	}
+
+	void QuadBatch::reset()
+	{
+		currentQuads_ = 0;
+		currentTextures_ = 1;
+	}
 
 	struct Renderer2DData
 	{
+		std::unique_ptr<QuadBatch> quadBatch;
 		std::unique_ptr<Shader> shader;
-		std::unique_ptr<Texture> texture;
+		std::unique_ptr<Texture> defaultTexture;
 	};
 
 	static Renderer2DData data;
 
 	void Renderer2D::init()
 	{
+		data.quadBatch = std::make_unique<QuadBatch>();
+
 		data.shader = std::make_unique<Shader>(RES_DIR "shaders/default2d.vert", RES_DIR "shaders/default2d.frag");
 		data.shader->bind();
+		uint32_t textures[32] = { 0 };
+		for (uint32_t i = 0; i < 32; ++i)
+			textures[i] = i;
+		data.shader->setIntArray("u_textures", (int*)textures, 32);
 
 		uint8_t textureData[4] = { 255, 255, 255, 255 };
-		data.texture = std::make_unique<Texture>(textureData, 1, 1);
+		data.defaultTexture = std::make_unique<Texture>(textureData, 1, 1);
+	}
 
-		// Set uniforms
-		Mat4 projection = Mat4::ortho(16.0f, 9.0f);
+	void Renderer2D::begin(const Mat4& viewProjection)
+	{
+		data.shader->bind();
+		data.shader->setMat4("u_viewProjection", viewProjection);
+		data.defaultTexture->slot(0);
+		data.quadBatch->reset();
+	}
 
-		data.shader->setMat4("u_projection", projection);
-		data.shader->setInt("u_texture", 0);
+	void Renderer2D::end()
+	{
+		data.quadBatch->draw();
 	}
 
 	void Renderer2D::drawRect(const Bounds& bounds, const Vec4& color, const Mat4& transform)
 	{
-		// Create vertex buffer
-		QuadVertex quadVertices[4] = {
-			{ { bounds.left, bounds.bottom }, { 0.0f, 0.0f }, color, 0 },
-			{ { bounds.right, bounds.bottom }, { 1.0f, 0.0f }, color, 0 },
-			{ { bounds.right, bounds.top }, { 1.0f, 1.0f }, color, 0 },
-			{ { bounds.left, bounds.top }, { 0.0f, 1.0f }, color, 0 }
-		};
-		ArrayBuffer quadVbo(
-			&quadVertices,
-			sizeof(quadVertices),
-			BufferLayout({ DataType::Vec2, DataType::Vec2, DataType::Vec4, DataType::Int })
+		Vec4 pos1 = transform * Vec4(bounds.left, bounds.bottom, 0.0f, 1.0f);
+		Vec4 pos2 = transform * Vec4(bounds.right, bounds.bottom, 0.0f, 1.0f);
+		Vec4 pos3 = transform * Vec4(bounds.right, bounds.top, 0.0f, 1.0f);
+		Vec4 pos4 = transform * Vec4(bounds.left, bounds.top, 0.0f, 1.0f);
+
+		data.quadBatch->addQuad(
+			{ pos1, { 0.0f, 0.0f }, color, 0 },
+			{ pos2, { 1.0f, 0.0f }, color, 0 },
+			{ pos3, { 1.0f, 1.0f }, color, 0 },
+			{ pos4, { 0.0f, 1.0f }, color, 0 }
 		);
-
-		// Create index buffer
-		std::array<uint32_t, 6> quadIndices = { 0, 1, 2, 0, 2, 3 };
-		IndexBuffer quadIbo(quadIndices.data(), quadIndices.size());
-
-		// Create vertex array
-		VertexArray quadVao;
-		quadVao.addVertexBuffer(quadVbo);
-		quadVao.setIndexBuffer(quadIbo);
-
-		data.texture->slot(0);
-		data.shader->bind();
-		data.shader->setMat4("u_model", transform);
-		Renderer::drawIndexed(quadVao, 6);
 	}
 
-	void Renderer2D::drawRect(const Bounds& bounds, const Bounds& uv, const Texture& texture, const Vec4& tint, const Mat4& transform)
+	void Renderer2D::drawRect(const Bounds& bounds, const Bounds& uv, const std::shared_ptr<Texture>& texture, const Vec4& tint, const Mat4& transform)
 	{
-		// Create vertex buffer
-		QuadVertex quadVertices[4] = {
-			{ { bounds.left, bounds.bottom }, { uv.left, uv.bottom }, tint, 0 },
-			{ { bounds.right, bounds.bottom }, { uv.right, uv.bottom }, tint, 0 },
-			{ { bounds.right, bounds.top }, { uv.right, uv.top }, tint, 0 },
-			{ { bounds.left, bounds.top }, { uv.left, uv.top }, tint, 0 }
-		};
-		ArrayBuffer quadVbo(
-			&quadVertices,
-			sizeof(quadVertices),
-			BufferLayout({ DataType::Vec2, DataType::Vec2, DataType::Vec4, DataType::Int })
+		uint32_t slot = data.quadBatch->addTexture(texture);
+
+		Vec4 pos1 = transform * Vec4(bounds.left, bounds.bottom, 0.0f, 1.0f);
+		Vec4 pos2 = transform * Vec4(bounds.right, bounds.bottom, 0.0f, 1.0f);
+		Vec4 pos3 = transform * Vec4(bounds.right, bounds.top, 0.0f, 1.0f);
+		Vec4 pos4 = transform * Vec4(bounds.left, bounds.top, 0.0f, 1.0f);
+
+		data.quadBatch->addQuad(
+			{ pos1, { uv.left, uv.bottom }, tint, slot },
+			{ pos2, { uv.right, uv.bottom }, tint, slot },
+			{ pos3, { uv.right, uv.top }, tint, slot },
+			{ pos4, { uv.left, uv.top }, tint, slot }
 		);
-
-		// Create index buffer
-		std::array<uint32_t, 6> quadIndices = { 0, 1, 2, 0, 2, 3 };
-		IndexBuffer quadIbo(quadIndices.data(), quadIndices.size());
-
-		// Create vertex array
-		VertexArray quadVao;
-		quadVao.addVertexBuffer(quadVbo);
-		quadVao.setIndexBuffer(quadIbo);
-
-		texture.slot(0);
-		data.shader->bind();
-		data.shader->setMat4("u_model", transform);
-		Renderer::drawIndexed(quadVao, 6);
 	}
 }

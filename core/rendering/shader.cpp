@@ -77,6 +77,12 @@ namespace poseidon
 		glUniform1i(location, value);
 	}
 
+	void Shader::setIntArray(const char* name, int* values, uint32_t count) const
+	{
+		GLint location = glGetUniformLocation(id_, name);
+		glUniform1iv(location, count, values);
+	}
+
 	void Shader::setFloat(const char* name, float value) const
 	{
 		GLint location = glGetUniformLocation(id_, name);

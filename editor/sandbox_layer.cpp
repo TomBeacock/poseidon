@@ -64,7 +64,7 @@ namespace editor
 		cubeShader_->setMat4("u_viewProjection", projection * view);
 
 		// Load texture
-		quadTexture_ = std::make_unique<Texture>(RES_DIR "trident.png");
+		quadTexture_ = std::make_shared<Texture>(RES_DIR "trident.png");
 
 		Renderer::setClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 	}
@@ -85,8 +85,10 @@ namespace editor
 		Mat4 rectModel = Mat4::rotation(0.0f, 0.0f, angle_);
 
 		// Render textured quad
+		Renderer2D::begin(Mat4::ortho(16.0f, 9.0f));
 		Renderer2D::drawRect(Bounds(Vec2::zero, { 2.0f, 10.0f }), { 0.5f, 0.5f, 0.0f, 1.0f }, rectModel);
-		Renderer2D::drawRect(Bounds(Vec2::zero, { 5.0f, 5.0f }, { 0.5f, 0.5f }), Bounds(Vec2::zero, Vec2::one), *quadTexture_, Vec4::one);
+		Renderer2D::drawRect(Bounds(Vec2::zero, { 5.0f, 5.0f }, { 0.5f, 0.5f }), Bounds(Vec2::zero, Vec2::one), quadTexture_, Vec4::one);
+		Renderer2D::end();
 	}
 
 	bool SandboxLayer::onEvent(const SDL_Event& event)
