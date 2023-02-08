@@ -48,25 +48,7 @@ namespace editor
 		cubeVao_->addVertexBuffer(*cubeVbo_);
 		cubeVao_->setIndexBuffer(*cubeIbo_);
 
-		// Create shader
-		const char* cubeVertexShader = R"(#version 330 core
-layout(location = 0) in vec3 v_in_pos;
-
-uniform mat4 u_model;
-uniform mat4 u_viewProjection;
-
-void main() {
-	gl_Position = u_viewProjection * u_model * vec4(v_in_pos, 1.0);
-})";
-
-		const char* cubeFragmentShader = R"(#version 330 core
-out vec4 f_out_color;
-
-void main() {
-	f_out_color = vec4(1.0, 0.0, 0.0, 1.0);
-})";
-
-		cubeShader_ = std::make_unique<Shader>(cubeVertexShader, cubeFragmentShader);
+		cubeShader_ = std::make_unique<Shader>(RES_DIR "shaders/cube.vert", RES_DIR "shaders/cube.frag");
 		cubeShader_->bind();
 
 		// Set uniforms
