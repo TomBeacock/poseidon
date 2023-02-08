@@ -19,6 +19,7 @@ namespace poseidon
 		void unbind() const;
 
 		void setInt(const char* name, int value) const;
+		void setIntArray(const char* name, int* values, uint32_t count) const;
 		void setFloat(const char* name, float value) const;
 		void setVec2(const char* name, const Vec2& value) const;
 		void setVec3(const char* name, const Vec3& value) const;

@@ -6,8 +6,8 @@ flat in int v_out_texture;
 
 out vec4 f_out_color;
 
-uniform sampler2D u_texture;
+uniform sampler2D u_textures[32];
 
 void main() {
-	f_out_color = texture(u_texture, v_out_uv) * v_out_color;
+	f_out_color = texture(u_textures[v_out_texture], v_out_uv) * v_out_color;
 }

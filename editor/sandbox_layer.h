@@ -27,11 +27,11 @@ namespace editor
 		virtual bool onEvent(const SDL_Event& event) override;
 
 	private:
-		std::unique_ptr<poseidon::ArrayBuffer> cubeVbo_, quadVbo_;
-		std::unique_ptr<poseidon::IndexBuffer> cubeIbo_, quadIbo_;
-		std::unique_ptr<poseidon::VertexArray> cubeVao_, quadVao_;
+		std::unique_ptr<poseidon::ArrayBuffer> cubeVbo_;
+		std::unique_ptr<poseidon::IndexBuffer> cubeIbo_;
+		std::unique_ptr<poseidon::VertexArray> cubeVao_;
 		std::unique_ptr<poseidon::Shader> cubeShader_, quadShader_;
-		std::unique_ptr<poseidon::Texture> quadTexture_;
+		std::shared_ptr<poseidon::Texture> quadTexture_;
 
 		float angle_;
 	};

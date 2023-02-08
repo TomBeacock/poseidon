@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "math/mat4.h"
 
 namespace poseidon
@@ -22,7 +24,10 @@ namespace poseidon
 	public:
 		static void init();
 
+		static void begin(const Mat4& viewProjection);
+		static void end();
+
 		static void drawRect(const Bounds& bounds, const Vec4& color, const Mat4& transform = Mat4::identity);
-		static void drawRect(const Bounds& bounds, const Bounds& uv, const Texture& texture, const Vec4& tint, const Mat4& transform = Mat4::identity);
+		static void drawRect(const Bounds& bounds, const Bounds& uv, const std::shared_ptr<Texture>& texture, const Vec4& tint, const Mat4& transform = Mat4::identity);
 	};
 }
