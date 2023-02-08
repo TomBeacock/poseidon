@@ -12,7 +12,7 @@ namespace poseidon
 	class LayerStack
 	{
 	public:
-		void onUpdate();
+		void onUpdate(float deltaTime);
 		bool onEvent(const SDL_Event& event);
 
 		void add(std::unique_ptr<Layer> layer);

@@ -58,7 +58,7 @@ namespace editor
 			{ 1.0f, 1.0f, 1.0f }
 		);
 		Mat4 view = Mat4::translation(-Vec3(0.0f, 0.0f, -5.0f));
-		Mat4 projection = Mat4::persp(std::numbers::pi / 2.0f, 16.0f / 9.0f, 0.1f, 10.0f);
+		Mat4 projection = Mat4::persp((float)std::numbers::pi / 2.0f, 16.0f / 9.0f, 0.1f, 10.0f);
 
 		cubeShader_->setMat4("u_model", model);
 		cubeShader_->setMat4("u_viewProjection", projection * view);
@@ -69,7 +69,7 @@ namespace editor
 		Renderer::setClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 	}
 
-	void SandboxLayer::onUpdate()
+	void SandboxLayer::onUpdate(float deltaTime)
 	{
 		// Rotate and render cube
 		Mat4 model = Mat4::transformation(
@@ -77,7 +77,7 @@ namespace editor
 			{ 0.0f, angle_, 0.0f },
 			{ 1.0f, 1.0f, 1.0f }
 		);
-		angle_ += std::numbers::pi / 180.0f;
+		angle_ += (2.0f * (float)std::numbers::pi) * 0.2f * deltaTime;
 		cubeShader_->bind();
 		cubeShader_->setMat4("u_model", model);
 		Renderer::drawIndexed(*cubeVao_, 6 * 6);

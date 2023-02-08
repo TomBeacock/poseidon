@@ -23,7 +23,7 @@ namespace editor
 		virtual ~SandboxLayer() override;
 
 		virtual void onStart() override;
-		virtual void onUpdate() override;
+		virtual void onUpdate(float deltaTime) override;
 		virtual bool onEvent(const SDL_Event& event) override;
 
 	private:
