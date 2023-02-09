@@ -5,6 +5,7 @@ add_library (core
 "include/poseidon/core.h"
 "include/poseidon/math.h"
 "include/poseidon/rendering.h"
+"include/poseidon/ui.h"
 "system/application.h" "system/application.cpp"
 "system/window.h" "system/window.cpp"
 "system/layer.h"
@@ -19,7 +20,10 @@ add_library (core
 "rendering/index_buffer.h" "rendering/index_buffer.cpp"
 "rendering/vertex_array.h" "rendering/vertex_array.cpp"
 "rendering/shader.h" "rendering/shader.cpp"
-"rendering/texture.h" "rendering/texture.cpp")
+"rendering/texture.h" "rendering/texture.cpp"
+"ui/canvas.h" "ui/canvas.cpp"
+"ui/visual_element.h"
+ "ui/visual_element.cpp")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
