@@ -3,7 +3,8 @@ project("editor")
 add_executable(editor
 "main.cpp"
 "editor.h" "editor.cpp"
-"sandbox_layer.h" "sandbox_layer.cpp")
+"sandbox_layer.h" "sandbox_layer.cpp"
+"editor_canvas.h" "editor_canvas.cpp")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
