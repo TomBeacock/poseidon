@@ -7,6 +7,7 @@
 #include <numbers>
 #include <iostream>
 
+#include "window.h"
 #include "layer.h"
 #include "math/vec3.h"
 #include "math/vec4.h"
@@ -23,8 +24,18 @@
 
 namespace poseidon
 {
+	const Window& Application::window()
+	{
+		return *instance_->window_;
+	}
+
+	Application* Application::instance_ = nullptr;
+
 	Application::Application() : window_(nullptr), lastFrameTime_(0)
 	{
+		if (instance_ == nullptr)
+			instance_ = this;
+
 		SDL_Init(SDL_INIT_VIDEO);
 		IMG_Init(IMG_INIT_PNG);
 
@@ -34,8 +45,7 @@ namespace poseidon
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-		window_ = SDL_CreateWindow("Window Title", 100, 100, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-		SDL_GLContext glContext = SDL_GL_CreateContext(window_);
+		window_ = new Window();
 
 		gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
 
@@ -45,7 +55,7 @@ namespace poseidon
 
 	Application::~Application()
 	{
-		SDL_DestroyWindow(window_);
+		delete window_;
 		SDL_Quit();
 	}
 
@@ -82,7 +92,7 @@ namespace poseidon
 
 			layerStack_.onUpdate(deltaTime);
 
-			SDL_GL_SwapWindow(window_);
+			window_->swapBuffers();
 		}
 	}
 }

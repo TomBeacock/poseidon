@@ -3,12 +3,19 @@
 #include <vector>
 #include "layer_stack.h"
 
-struct SDL_Window;
 
 namespace poseidon
 {
+	struct Window;
+
 	class Application
 	{
+	public:
+		static const Window& window();
+
+	private:
+		static Application* instance_;
+
 	public:
 		Application();
 		~Application();
@@ -19,7 +26,7 @@ namespace poseidon
 
 	private:
 		LayerStack layerStack_;
-		SDL_Window* window_;
+		Window* window_;
 		uint64_t lastFrameTime_;
 	};
 }

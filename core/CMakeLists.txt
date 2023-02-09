@@ -6,6 +6,7 @@ add_library (core
 "include/poseidon/math.h"
 "include/poseidon/rendering.h"
 "system/application.h" "system/application.cpp"
+"system/window.h" "system/window.cpp"
 "system/layer.h"
 "system/layer_stack.h" "system/layer_stack.cpp"
 "math/vec2.h" "math/vec2.cpp"
