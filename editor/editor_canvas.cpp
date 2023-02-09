@@ -6,7 +6,7 @@ namespace editor
 {
 	EditorCanvas::EditorCanvas()
 	{
-		auto root = std::make_shared<VisualElement>();
+		auto root = std::make_shared<HorizontalPanel>();
 		setRoot(root);
 	}
 }

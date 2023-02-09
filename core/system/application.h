@@ -6,7 +6,7 @@
 
 namespace poseidon
 {
-	struct Window;
+	class Window;
 
 	class Application
 	{

@@ -5,7 +5,7 @@
 #include "system/application.h"
 #include "system/window.h"
 #include "rendering/renderer2d.h"
-#include "visual_element.h"
+#include "view.h"
 
 namespace poseidon
 {
@@ -21,8 +21,8 @@ namespace poseidon
 
 	void Canvas::onStart()
 	{
-		int width = Application::window().width();
-		int height = Application::window().height();
+		float width = (float)Application::window().width();
+		float height = (float)Application::window().height();
 		projection_ = Mat4::orthoOffCenter(0.0f, width, 0.0f, height);
 	}
 
@@ -36,14 +36,14 @@ namespace poseidon
 	{
 		if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED)
 		{
-			uint32_t width = event.window.data1;
-			uint32_t height = event.window.data2;
+			float width = (float)event.window.data1;
+			float height = (float)event.window.data2;
 			projection_ = Mat4::orthoOffCenter(0.0f, width, 0.0f, height);
 		}
 		return false;
 	}
 
-	void Canvas::setRoot(std::shared_ptr<VisualElement> root)
+	void Canvas::setRoot(std::shared_ptr<View> root)
 	{
 		root_ = root;
 	}
@@ -53,12 +53,9 @@ namespace poseidon
 		if (root_ == nullptr)
 			return;
 
-		root_->position = Vec2::zero;
-		float width = Application::window().width();
-		float height = Application::window().height();
-		root_->size = { width, height };
-
-		root_->layout();
+		float width = (float)Application::window().width();
+		float height = (float)Application::window().height();
+		root_->layout(0.0f, width, 0.0f, height);
 	}
 
 	void Canvas::paint()
@@ -67,7 +64,7 @@ namespace poseidon
 			return;
 
 		Renderer2D::begin(projection_);
-		root_->paint();
+		root_->draw();
 		Renderer2D::end();
 	}
 }

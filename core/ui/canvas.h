@@ -7,7 +7,7 @@
 
 namespace poseidon
 {
-	struct VisualElement;
+	class View;
 
 	class Canvas : public Layer
 	{
@@ -19,14 +19,14 @@ namespace poseidon
 		virtual void onUpdate(float deltaTime) final;
 		virtual bool onEvent(const SDL_Event& event) final;
 
-		void setRoot(std::shared_ptr<VisualElement> root);
+		void setRoot(std::shared_ptr<View> root);
 
 	private:
 		void layout();
 		void paint();
 
 	private:
-		std::shared_ptr<VisualElement> root_;
+		std::shared_ptr<View> root_;
 		Mat4 projection_;
 	};
 }
