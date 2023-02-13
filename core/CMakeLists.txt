@@ -26,7 +26,8 @@ add_library (core
 "ui/panel.h" "ui/panel.cpp"
 "ui/layout_params.h" "ui/layout_params.cpp"
 "ui/horizontal_panel.h" "ui/horizontal_panel.cpp"
-"ui/rectangle.h" "ui/rectangle.cpp")
+"ui/vertical_panel.h"
+"ui/rectangle.h" "ui/rectangle.cpp" "ui/vertical_panel.cpp")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
