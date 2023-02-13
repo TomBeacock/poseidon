@@ -28,6 +28,7 @@ namespace poseidon
 
 	void Canvas::onUpdate(float deltaTime)
 	{
+		measure();
 		layout();
 		paint();
 	}
@@ -48,6 +49,13 @@ namespace poseidon
 		root_ = root;
 	}
 
+	void Canvas::measure()
+	{
+		if (root_ == nullptr)
+			return;
+		root_->measure();
+	}
+
 	void Canvas::layout()
 	{
 		if (root_ == nullptr)
@@ -64,7 +72,7 @@ namespace poseidon
 			return;
 
 		Renderer2D::begin(projection_);
-		root_->draw();
+		root_->draw(Vec2::zero);
 		Renderer2D::end();
 	}
 }

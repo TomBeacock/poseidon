@@ -22,6 +22,7 @@ namespace poseidon
 		void setRoot(std::shared_ptr<View> root);
 
 	private:
+		void measure();
 		void layout();
 		void paint();
 

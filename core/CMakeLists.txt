@@ -22,8 +22,11 @@ add_library (core
 "rendering/shader.h" "rendering/shader.cpp"
 "rendering/texture.h" "rendering/texture.cpp"
 "ui/canvas.h" "ui/canvas.cpp"
-"ui/view.h"
-  "ui/panel.h" "ui/panel.cpp" "ui/horizontal_panel.h" "ui/horizontal_panel.cpp" "ui/view.cpp")
+"ui/view.h" "ui/view.cpp"
+"ui/panel.h" "ui/panel.cpp"
+"ui/layout_params.h" "ui/layout_params.cpp"
+"ui/horizontal_panel.h" "ui/horizontal_panel.cpp"
+"ui/rectangle.h" "ui/rectangle.cpp")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)

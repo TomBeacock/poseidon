@@ -2,9 +2,11 @@
 
 namespace poseidon
 {
-	void Panel::onDraw()
+	void Panel::onDraw(const Vec2& relativeOrigin)
 	{
-
+		Vec2 newRelativeOrigin = relativeOrigin + actualPosition();
+		for (auto& child : children_)
+			child->draw(newRelativeOrigin);
 	}
 
 	void Panel::measureChildren()

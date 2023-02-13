@@ -2,9 +2,22 @@
 
 namespace poseidon
 {
-	void View::draw()
+	View::View() :
+		position_(0.0f, 0.0f), size_(0.0f, 0.0f),
+		measuredSize_(0.0f, 0.0f), preferredSize_(0.0f, 0.0f),
+		layoutParams_(nullptr)
 	{
-		onDraw();
+
+	}
+
+	View::~View()
+	{
+
+	}
+
+	void View::draw(const Vec2& relativeOrigin)
+	{
+		onDraw(relativeOrigin);
 	}
 
 	void View::measure()
