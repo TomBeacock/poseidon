@@ -18,7 +18,7 @@ namespace poseidon
 
 		void draw(const Vec2& relativeOrigin);
 		void measure();
-		void layout(float left, float right, float top, float bottom);
+		void layout(const Vec2& position, const Vec2& size);
 
 		inline const Vec2& actualPosition() const { return position_; }
 		inline const Vec2& actualSize() const { return size_; }
@@ -34,9 +34,15 @@ namespace poseidon
 		inline LayoutParams& layoutParams() { return *layoutParams_; }
 		inline void setLayoutParams(std::unique_ptr<LayoutParams> layoutParams) { layoutParams_ = std::move(layoutParams); }
 
+		inline const HorizontalAlignment& horizontalAlignment() const { return horizontalAlignment_; }
+		inline void setHorizontalAlignment(HorizontalAlignment horizontalAlignment) { horizontalAlignment_ = horizontalAlignment; }
+
+		inline const VerticalAlignment& verticalAlignment() const { return verticalAlignment_; }
+		inline void setVerticalAlignment(VerticalAlignment verticalAlignment) { verticalAlignment_ = verticalAlignment; }
+
 	protected:
 		virtual void onMeasure() = 0;
-		virtual void onLayout(float left, float right, float top, float bottom) = 0;
+		virtual void onLayout(const Vec2& position, const Vec2& size) = 0;
 		virtual void onDraw(const Vec2& relativeOrigin) = 0;
 
 	private:
@@ -45,5 +51,7 @@ namespace poseidon
 		Vec2 measuredSize_;
 		Vec2 preferredSize_;
 		std::unique_ptr<LayoutParams> layoutParams_;
+		HorizontalAlignment horizontalAlignment_;
+		VerticalAlignment verticalAlignment_;
 	};
 }

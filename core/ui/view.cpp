@@ -5,7 +5,9 @@ namespace poseidon
 	View::View() :
 		position_(0.0f, 0.0f), size_(0.0f, 0.0f),
 		measuredSize_(0.0f, 0.0f), preferredSize_(0.0f, 0.0f),
-		layoutParams_(nullptr)
+		layoutParams_(nullptr),
+		horizontalAlignment_(HorizontalAlignment::Left),
+		verticalAlignment_(VerticalAlignment::Top)
 	{
 
 	}
@@ -25,10 +27,10 @@ namespace poseidon
 		onMeasure();
 	}
 
-	void View::layout(float left, float right, float top, float bottom)
+	void View::layout(const Vec2& position, const Vec2& size)
 	{
-		position_ = Vec2(left, top);
-		size_ = Vec2(right - left, bottom - top);
-		onLayout(left, right, top, bottom);
+		position_ = position;
+		size_ = size;
+		onLayout(position, size);
 	}
 }

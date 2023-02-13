@@ -17,7 +17,7 @@ namespace poseidon
 		setMeasuredSize(size);
 	}
 
-	void HorizontalPanel::onLayout(float left, float right, float top, float bottom)
+	void HorizontalPanel::onLayout(const Vec2& position, const Vec2& size)
 	{
 		// Width pass
 		float fixedWidth = 0.0f;
@@ -33,11 +33,10 @@ namespace poseidon
 			}
 		}
 
-		float fillWidth = (right - left - fixedWidth) / (float)fillCount;
+		float fillWidth = (size.x - fixedWidth) / (float)fillCount;
 
 		// Layout pass
-		float x = left;
-
+		float x = 0.0f;
 		for (const auto& child : children())
 		{
 			float width = 0.0f;
@@ -51,12 +50,20 @@ namespace poseidon
 			float height = 0.0f;
 			switch (child->layoutParams().height().type())
 			{
-			case Dimension::Type::FillParent: height = (bottom - top); break;
+			case Dimension::Type::FillParent: height = size.y; break;
 			case Dimension::Type::WrapContent: height = child->measuredHeight(); break;
 			case Dimension::Type::Exact: height = child->layoutParams().height().size(); break;
 			}
 
-			child->layout(x, x + width, top, top + height);
+			float y = 0.0f;
+			switch (child->verticalAlignment())
+			{
+			case VerticalAlignment::Top: break;
+			case VerticalAlignment::Center: y = (size.y - height) / 2.0f; break;
+			case VerticalAlignment::Bottom: y = size.y - height;
+			}
+
+			child->layout({ x, y }, { width, height });
 			x += width;
 		}
 	}

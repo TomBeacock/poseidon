@@ -10,7 +10,7 @@ namespace poseidon
 		
 	}
 
-	void Rectangle::onLayout(float left, float right, float top, float bottom)
+	void Rectangle::onLayout(const Vec2& position, const Vec2& size)
 	{
 		
 	}

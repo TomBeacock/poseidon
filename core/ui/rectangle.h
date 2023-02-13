@@ -13,7 +13,7 @@ namespace poseidon
 
 	protected:
 		virtual void onMeasure() override;
-		virtual void onLayout(float left, float right, float top, float bottom) override;
+		virtual void onLayout(const Vec2& position, const Vec2& size) override;
 		virtual void onDraw(const Vec2& relativeOrigin) override;
 
 	private:

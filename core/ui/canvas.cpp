@@ -63,7 +63,7 @@ namespace poseidon
 
 		float width = (float)Application::window().width();
 		float height = (float)Application::window().height();
-		root_->layout(0.0f, width, 0.0f, height);
+		root_->layout({ 0.0f, 0.0f }, { width, height });
 	}
 
 	void Canvas::paint()
