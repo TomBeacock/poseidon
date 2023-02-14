@@ -1,10 +1,8 @@
 #include "horizontal_panel.h"
 
-#include "ui/layout_params.h"
-
 namespace poseidon
 {
-	void HorizontalPanel::onMeasure()
+	const Vec2& HorizontalPanel::onMeasure()
 	{
 		measureChildren();
 
@@ -14,57 +12,63 @@ namespace poseidon
 			size.x += child->measuredWidth();
 			size.y = std::max(size.y, child->measuredHeight());
 		}
-		setMeasuredSize(size);
+		return size + margin().size();
 	}
 
 	void HorizontalPanel::onLayout(const Vec2& position, const Vec2& size)
 	{
+		Vec2 p, s;
+		calculateChildArea(p, s);
+
 		// Width pass
 		float fixedWidth = 0.0f;
 		unsigned int fillCount = 0;
 
 		for (const auto& child : children())
 		{
-			switch (child->layoutParams().width().type())
+			if (child->autoWidth())
 			{
-			case Dimension::Type::FillParent: ++fillCount; break;
-			case Dimension::Type::WrapContent: fixedWidth += child->measuredWidth(); break;
-			case Dimension::Type::Exact: fixedWidth += child->layoutParams().width().size(); break;
+				if (child->horizontalAlignment() == HorizontalAlignment::Fill)
+					++fillCount;
+				else
+					fixedWidth += child->measuredWidth();
 			}
+			else
+				fixedWidth += child->preferredWidth();
 		}
 
-		float fillWidth = (size.x - fixedWidth) / (float)fillCount;
+		float fillWidth = (s.x - fixedWidth) / (float)fillCount;
 
 		// Layout pass
-		float x = 0.0f;
+		Vec2 childPos = p;
 		for (const auto& child : children())
 		{
-			float width = 0.0f;
-			switch (child->layoutParams().width().type())
+			Vec2 childSize;
+			// Child width
+			if (child->autoWidth())
 			{
-			case Dimension::Type::FillParent: width = fillWidth; break;
-			case Dimension::Type::WrapContent: width = child->measuredWidth(); break;
-			case Dimension::Type::Exact: width = child->layoutParams().width().size(); break;
+				if (child->horizontalAlignment() == HorizontalAlignment::Fill)
+					childSize.x = fillWidth;
+				else
+					childSize.x = child->measuredWidth();
 			}
+			else
+				childSize.x = child->preferredWidth();
 
-			float height = 0.0f;
-			switch (child->layoutParams().height().type())
-			{
-			case Dimension::Type::FillParent: height = size.y; break;
-			case Dimension::Type::WrapContent: height = child->measuredHeight(); break;
-			case Dimension::Type::Exact: height = child->layoutParams().height().size(); break;
-			}
-
-			float y = 0.0f;
+			// Child y and height
+			childPos.y = p.y;
+			childSize.y = child->measuredHeight();
 			switch (child->verticalAlignment())
 			{
 			case VerticalAlignment::Top: break;
-			case VerticalAlignment::Center: y = (size.y - height) / 2.0f; break;
-			case VerticalAlignment::Bottom: y = size.y - height;
+			case VerticalAlignment::Center: childPos.y += (s.y - childSize.y) / 2.0f; break;
+			case VerticalAlignment::Bottom: childPos.y += s.y - childSize.y; break;
+			case VerticalAlignment::Fill: childSize.y = s.y; break;
 			}
 
-			child->layout({ x, y }, { width, height });
-			x += width;
+			const Thickness& m = child->margin();
+			child->layout(childPos + Vec2(m.left, m.top), childSize - m.size());
+			childPos.x += childSize.x;
 		}
 	}
 }

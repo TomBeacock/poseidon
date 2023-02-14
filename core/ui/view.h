@@ -3,12 +3,12 @@
 #include <memory>
 
 #include "math/vec2.h"
-#include "layout_params.h"
+#include "thickness.h"
 
 namespace poseidon
 {
-	enum class HorizontalAlignment { Left, Center, Right };
-	enum class VerticalAlignment { Top, Center, Bottom };
+	enum class HorizontalAlignment { Left, Center, Right, Fill };
+	enum class VerticalAlignment { Top, Center, Bottom, Fill };
 
 	class View
 	{
@@ -27,12 +27,18 @@ namespace poseidon
 		inline float measuredHeight() const { return measuredSize_.y; }
 
 		inline const Vec2& measuredSize() const { return measuredSize_; }
-		inline void setMeasuredSize(const Vec2& desiredSize) { measuredSize_ = desiredSize; }
 
+		inline bool autoWidth() const { return preferredSize_.x < 0.0f; }
+		inline void setAutoWidth() { preferredSize_.x = -1.0f; }
+		inline bool autoHeight() const { return preferredSize_.y < 0.0f; }
+		inline void setAutoHeight() { preferredSize_.y = -1.0f; }
+
+		inline float preferredWidth() const { return preferredSize_.x; }
+		inline float preferredHeight() const { return preferredSize_.y; }
+		inline const Vec2& preferredSize() const { return preferredSize_; }
+		inline void setPreferredWidth(float width) { preferredSize_.x = width; }
+		inline void setPreferredHeight(float height) { preferredSize_.y = height; }
 		inline void setPreferredSize(const Vec2& preferredSize) { preferredSize_ = preferredSize; }
-
-		inline LayoutParams& layoutParams() { return *layoutParams_; }
-		inline void setLayoutParams(std::unique_ptr<LayoutParams> layoutParams) { layoutParams_ = std::move(layoutParams); }
 
 		inline const HorizontalAlignment& horizontalAlignment() const { return horizontalAlignment_; }
 		inline void setHorizontalAlignment(HorizontalAlignment horizontalAlignment) { horizontalAlignment_ = horizontalAlignment; }
@@ -40,8 +46,11 @@ namespace poseidon
 		inline const VerticalAlignment& verticalAlignment() const { return verticalAlignment_; }
 		inline void setVerticalAlignment(VerticalAlignment verticalAlignment) { verticalAlignment_ = verticalAlignment; }
 
+		inline const Thickness& margin() const { return margin_; }
+		inline void setMargin(const Thickness& margin) { margin_ = margin; }
+
 	protected:
-		virtual void onMeasure() = 0;
+		virtual const Vec2& onMeasure() = 0;
 		virtual void onLayout(const Vec2& position, const Vec2& size) = 0;
 		virtual void onDraw(const Vec2& relativeOrigin) = 0;
 
@@ -50,8 +59,8 @@ namespace poseidon
 		Vec2 size_;
 		Vec2 measuredSize_;
 		Vec2 preferredSize_;
-		std::unique_ptr<LayoutParams> layoutParams_;
 		HorizontalAlignment horizontalAlignment_;
 		VerticalAlignment verticalAlignment_;
+		Thickness margin_;
 	};
 }

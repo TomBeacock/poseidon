@@ -5,9 +5,9 @@
 
 namespace poseidon
 {
-	void Rectangle::onMeasure()
+	const Vec2& Rectangle::onMeasure()
 	{
-		
+		return preferredSize();
 	}
 
 	void Rectangle::onLayout(const Vec2& position, const Vec2& size)
@@ -17,6 +17,6 @@ namespace poseidon
 
 	void Rectangle::onDraw(const Vec2& relativeOrigin)
 	{
-		Renderer2D::drawRect(Bounds(relativeOrigin + actualPosition(), actualSize(), { 0.0f, 0.0f }), color_);
+		Renderer2D::drawRect(Bounds(relativeOrigin + actualPosition(), actualSize(), Vec2::zero), color_);
 	}
 }
