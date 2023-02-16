@@ -29,10 +29,14 @@ namespace poseidon
 		Font(const std::string& atlasFilepath, const std::string& atlasDataFilepath);
 		~Font();
 
+		inline uint32_t height() const { return height_; }
+
 		inline const std::shared_ptr<Texture>& atlas() const { return atlas_; }
+
 		inline const GlyphMeasurements& glyph(char32_t codePoint) const { return glyphs_.at(codePoint); }
 
 	private:
+		uint32_t height_;
 		std::shared_ptr<Texture> atlas_;
 		std::unordered_map<char32_t, GlyphMeasurements> glyphs_;
 	};

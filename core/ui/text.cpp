@@ -8,11 +8,17 @@
 
 namespace poseidon
 {
+	Text::Text() :
+		fontSize_(16.0f),
+		color_(0.0f, 0.0f, 0.0f, 1.0f),
+		baseline_(0.0f) {}
+
 	const Vec2& Text::onMeasure()
 	{
 		if (font_ == nullptr)
 			return Vec2::zero;
 
+		float scale = fontSize_ / (float)font_->height();
 		float minY = 0.0f, maxY = 0.0f;
 
 		Vec2 size;
@@ -24,9 +30,9 @@ namespace poseidon
 			maxY = std::max(maxY, (float)glyph.bearingY);
 			size.x += glyph.advance;
 		}
-		baseline_ = maxY;
+		baseline_ = maxY * scale;
 		size.y = maxY - minY;
-		return size + margin().size();
+		return size * scale + margin().size();
 	}
 
 	void Text::onLayout(const Vec2& position, const Vec2& size)
@@ -38,14 +44,15 @@ namespace poseidon
 	{
 		if (font_ == nullptr)
 			return;
-
+		float scale = fontSize_ / (float)font_->height();
 		Vec2 pen = relativeOrigin + actualPosition() + Vec2(0.0f, baseline_);
+
 		for (Utf8Iterator it = text_.begin(); it != text_.end(); ++it)
 		{
 			const GlyphMeasurements& glyph = font_->glyph(*it);
 			Bounds bounds(
-				pen + Vec2((float)glyph.bearingX, -(float)glyph.bearingY),
-				Vec2((float)glyph.width, (float)glyph.height)
+				pen + Vec2((float)glyph.bearingX, -(float)glyph.bearingY) * scale,
+				Vec2((float)glyph.width, (float)glyph.height) * scale
 			);
 			std::shared_ptr<Texture> atlas = font_->atlas();
 			Vec2 atlasSize = Vec2(atlas->width(), atlas->height());
@@ -58,9 +65,8 @@ namespace poseidon
 				(atlasSize.y - (float)glyph.uvY) / atlasSize.y
 			};
 			Bounds uv(uvMin.x, uvMax.x, uvMin.y, uvMax.y);
-			Renderer2D::drawRect(bounds, uv, font_->atlas(), Vec4::one);
-			//Renderer2D::drawRect(bounds, Vec4::one);
-			pen.x += glyph.advance;
+			Renderer2D::drawRect(bounds, uv, font_->atlas(), color_);
+			pen.x += glyph.advance * scale;
 		}
 	}
 }

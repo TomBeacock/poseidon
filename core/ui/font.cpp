@@ -31,6 +31,7 @@ namespace poseidon
 	{
 		std::ifstream f(atlasDataFilepath);
 		Json data = Json::parse(f);
+		height_ = data["height"].get<uint32_t>();
 		for (auto& glyphData : data["glyphTable"].items())
 		{
 			const Json& data = glyphData.value();
