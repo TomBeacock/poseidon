@@ -9,6 +9,8 @@ add_executable(editor
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 
+set_property(TARGET editor PROPERTY CXX_STANDARD 11)
+
 target_link_libraries(editor
 	core
 	SDL2::SDL2

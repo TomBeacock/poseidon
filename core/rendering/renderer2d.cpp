@@ -70,10 +70,11 @@ namespace poseidon
 	QuadBatch::QuadBatch() :
 		vertices_(new QuadVertex[maxQuads_ * 4]),
 		currentQuads_(0),
-		currentTextures_(1)
+		currentTextures_(1),
+		textures_()
 	{
 		vbo_ = std::make_unique<ArrayBuffer>(
-			maxQuads_ * 4,
+			maxQuads_ * sizeof(QuadVertex) * 4,
 			BufferLayout({ DataType::Vec3, DataType::Vec2, DataType::Vec4, DataType::Int })
 		);
 
@@ -106,10 +107,12 @@ namespace poseidon
 
 	uint32_t QuadBatch::addTexture(const std::shared_ptr<Texture>& texture)
 	{
-		auto it = std::find(textures_.begin(), textures_.end(), texture);
-		if (it != textures_.end())
+		auto end = textures_.begin() + currentTextures_;
+		auto it = std::find(textures_.begin(), end, texture);
+		if (it != end)
 			return it - textures_.begin();
 		texture->slot(currentTextures_);
+		textures_[currentTextures_] = texture;
 		++currentTextures_;
 		return currentTextures_ - 1;
 	}
@@ -123,14 +126,14 @@ namespace poseidon
 	void QuadBatch::reset()
 	{
 		currentQuads_ = 0;
-		currentTextures_ = 1;
+		currentTextures_ = 0;
 	}
 
 	struct Renderer2DData
 	{
 		std::unique_ptr<QuadBatch> quadBatch;
 		std::unique_ptr<Shader> shader;
-		std::unique_ptr<Texture> defaultTexture;
+		std::shared_ptr<Texture> defaultTexture;
 	};
 
 	static Renderer2DData data;
@@ -147,15 +150,15 @@ namespace poseidon
 		data.shader->setIntArray("u_textures", (int*)textures, 32);
 
 		uint8_t textureData[4] = { 255, 255, 255, 255 };
-		data.defaultTexture = std::make_unique<Texture>(textureData, 1, 1);
+		data.defaultTexture = std::make_shared<Texture>(textureData, 1, 1);
 	}
 
 	void Renderer2D::begin(const Mat4& viewProjection)
 	{
 		data.shader->bind();
 		data.shader->setMat4("u_viewProjection", viewProjection);
-		data.defaultTexture->slot(0);
 		data.quadBatch->reset();
+		data.quadBatch->addTexture(data.defaultTexture);
 	}
 
 	void Renderer2D::end()

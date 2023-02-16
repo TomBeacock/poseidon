@@ -6,5 +6,6 @@
 #include "ui/horizontal_panel.h"
 #include "ui/vertical_panel.h"
 #include "ui/rectangle.h"
-
+#include "ui/text.h"
 #include "ui/thickness.h"
+#include "ui/font.h"

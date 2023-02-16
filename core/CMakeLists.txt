@@ -1,6 +1,5 @@
 ﻿project("core")
 
-
 add_library (core
 "include/poseidon/core.h"
 "include/poseidon/math.h"
@@ -24,20 +23,25 @@ add_library (core
 "ui/canvas.h" "ui/canvas.cpp"
 "ui/view.h" "ui/view.cpp"
 "ui/panel.h" "ui/panel.cpp"
- 
 "ui/horizontal_panel.h" "ui/horizontal_panel.cpp"
 "ui/vertical_panel.h" "ui/vertical_panel.cpp"
 "ui/rectangle.h" "ui/rectangle.cpp" 
 "ui/thickness.h" "ui/thickness.cpp"
+"ui/font.h" "ui/font.cpp"
+"ui/text.h" "ui/text.cpp"
+"util/utf8_iterator.h" "util/utf8_iterator.cpp"
 )
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 
+set_property(TARGET core PROPERTY CXX_STANDARD 20)
+
 target_link_libraries(core
 	SDL2::SDL2
 	SDL2_image::SDL2_image
 	glad
+	nlohmann_json::nlohmann_json
 )
 
 target_include_directories(core PUBLIC
@@ -45,6 +49,7 @@ target_include_directories(core PUBLIC
 "${SDL2_INCLUDE_DIR}"
 "${SDL2_IMAGE_INCLUDE_DIRS}"
 "${CMAKE_SOURCE_DIR}/extern/glad/include"
+"${CMAKE_SOURCE_DIR}/extern/json/include"
 )
 
 target_compile_definitions(core PUBLIC RES_DIR="${CMAKE_SOURCE_DIR}/res/")

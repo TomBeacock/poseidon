@@ -2,12 +2,15 @@
 
 #include <poseidon/math.h>
 
+#include <iostream>
+
 using namespace poseidon;
 
 namespace editor
 {
 	EditorCanvas::EditorCanvas()
 	{
+
 		auto root = std::make_shared<HorizontalPanel>();
 		root->setPadding(Thickness(16.0f));
 
@@ -35,6 +38,31 @@ namespace editor
 		rect3->setPreferredSize({ 256.0f, 128.0f });
 		rect3->setColor(Vec4(1.0f, 0.0f, 1.0f, 1.0f));
 		vertical->addView(rect3);
+
+		std::shared_ptr<Font> font = std::make_shared<Font>(RES_DIR "fonts/pixel-font.png", RES_DIR "fonts/pixel-font-values.json");
+		auto text1 = std::make_shared<Text>();
+		text1->setText(u8"the quick brown fox jumped over the lazy dog");
+		text1->setFont(font);
+		text1->setMargin(Thickness(0.0f, 1.0f));
+		vertical->addView(text1);
+
+		auto text2 = std::make_shared<Text>();
+		text2->setText(u8"THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG");
+		text2->setFont(font);
+		text2->setMargin(Thickness(0.0f, 1.0f));
+		vertical->addView(text2);
+
+		auto text3 = std::make_shared<Text>();
+		text3->setText(u8"0123456789");
+		text3->setFont(font);
+		text3->setMargin(Thickness(0.0f, 1.0f));
+		vertical->addView(text3);
+
+		auto text4 = std::make_shared<Text>();
+		text4->setText(u8"!\"£$%^&*()-_+=[]{};:'@~#<,>.?/`¬¦\\|¥€");
+		text4->setFont(font);
+		text4->setMargin(Thickness(0.0f, 1.0f));
+		vertical->addView(text4);
 
 		root->addView(vertical);
 

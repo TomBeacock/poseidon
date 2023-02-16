@@ -5,9 +5,12 @@
 
 namespace poseidon
 {
-	Texture::Texture(const char* filepath)
+	Texture::Texture(const std::string& filepath)
 	{
-		SDL_Surface* surface = IMG_Load(filepath);
+		const char* rawFilepath = filepath.c_str();
+		SDL_Surface* surface = IMG_Load(rawFilepath);
+		width_ = surface->w;
+		height_ = surface->h;
 
 		// Flip image vertically
 		int pitch = surface->pitch;
@@ -44,7 +47,8 @@ namespace poseidon
 		SDL_FreeSurface(surface);
 	}
 
-	Texture::Texture(const uint8_t* data, uint32_t width, uint32_t height)
+	Texture::Texture(const uint8_t* data, uint32_t width, uint32_t height) :
+		width_(width), height_(height)
 	{
 		// Create OpenGL texture
 		glCreateTextures(GL_TEXTURE_2D, 1, &id_);
