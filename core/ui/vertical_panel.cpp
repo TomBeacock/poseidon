@@ -35,7 +35,7 @@ namespace poseidon
 		size.x = layout.width().type() == Size::Type::Exact ? layout.exactWidth() : size.x;
 		size.y = layout.height().type() == Size::Type::Exact ? layout.exactHeight() : size.y;
 
-		return size;
+		return size + padding().size();
 	}
 
 	void VerticalPanel::onLayout(const Vec2& position, const Vec2& size)

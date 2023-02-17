@@ -1,6 +1,6 @@
 #include "panel.h"
 
-#include <iostream>
+#include "rendering/renderer2d.h"
 
 namespace poseidon
 {
@@ -34,7 +34,7 @@ namespace poseidon
 		LayoutParams(width, height) {}
 
 	Panel::Panel() :
-		padding_() {}
+		padding_(), color_(1.0f, 1.0f, 1.0f, 1.0f) {}
 
 	void Panel::addView(std::shared_ptr<View> view, std::unique_ptr<LayoutParams> layoutParams)
 	{
@@ -44,6 +44,7 @@ namespace poseidon
 
 	void Panel::onDraw(const Vec2& relativeOrigin)
 	{
+		Renderer2D::drawRect(Bounds(relativeOrigin + actualPosition(), actualSize()), color_);
 		Vec2 newRelativeOrigin = relativeOrigin + actualPosition();
 		for (auto& child : children_)
 			child->draw(newRelativeOrigin);

@@ -10,66 +10,38 @@ namespace editor
 {
 	EditorCanvas::EditorCanvas()
 	{
-
-		auto root = std::make_shared<HorizontalPanel>();
-		root->setPadding(Thickness(16.0f));
-
-		auto rect1 = std::make_shared<Rectangle>();
-		rect1->setColor(Vec4(1.0f, 1.0f, 0.0f, 1.0f));
-		auto rect1Layout = std::make_unique<HorizontalPanel::LayoutParams>(Size::fill, Size::fill);
-		rect1Layout->setMargin(Thickness(16.0f, 32.0f, 64.0f, 128.0f));
-		root->addView(rect1, std::move(rect1Layout));
-
-		auto vertical = std::make_shared<VerticalPanel>();
-		auto verticalLayout = std::make_unique<HorizontalPanel::LayoutParams>(Size::fill, Size::fill);
-		root->addView(vertical, std::move(verticalLayout));
-
-		auto rect2 = std::make_shared<Rectangle>();
-		rect2->setColor(Vec4(0.0f, 1.0f, 1.0f, 1.0f));
-		auto rect2Layout = std::make_unique<VerticalPanel::LayoutParams>(Size(128.0f), Size::fill);
-		rect2Layout->setHorizontalAlignment(HorizontalAlignment::Right);
-		vertical->addView(rect2, std::move(rect2Layout));
-
-		auto rect3 = std::make_shared<Rectangle>();
-		rect3->setColor(Vec4(1.0f, 0.0f, 1.0f, 1.0f));
-		auto rect3Layout = std::make_unique<VerticalPanel::LayoutParams>(Size(256.0f), Size(128.0f));
-		rect3Layout->setMargin(Thickness(0.0f, 32.0f));
-		rect3Layout->setHorizontalAlignment(HorizontalAlignment::Center);
-		vertical->addView(rect3, std::move(rect3Layout));
-
 		std::shared_ptr<Font> font = std::make_shared<Font>(RES_DIR "fonts/pixel-font.png", RES_DIR "fonts/pixel-font-values.json");
-		auto text1 = std::make_shared<Text>();
-		text1->setText(u8"the quick brown fox jumped over the lazy dog");
-		text1->setColor(Vec4::one);
-		text1->setFont(font);
-		auto text1Layout = std::make_unique<VerticalPanel::LayoutParams>();
-		text1Layout->setMargin(Thickness(0.0f, 1.0f));
-		vertical->addView(text1, std::move(text1Layout));
 
-		auto text2 = std::make_shared<Text>();
-		text2->setText(u8"THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG");
-		text2->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		text2->setFont(font);
-		auto text2Layout = std::make_unique<VerticalPanel::LayoutParams>();
-		text2Layout->setMargin(Thickness(0.0f, 1.0f));
-		vertical->addView(text2, std::move(text2Layout));
-
-		auto text3 = std::make_shared<Text>();
-		text3->setText(u8"0123456789");
-		text3->setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		text3->setFont(font);
-		auto text3Layout = std::make_unique<VerticalPanel::LayoutParams>();
-		text3Layout->setMargin(Thickness(0.0f, 1.0f));
-		vertical->addView(text3, std::move(text3Layout));
-
-		auto text4 = std::make_shared<Text>();
-		text4->setText(u8"!\"£$%^&*()-_+=[]{};:'@~#<,>.?/`¬¦\\|¥€");
-		text4->setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-		text4->setFont(font);
-		auto text4Layout = std::make_unique<VerticalPanel::LayoutParams>();
-		text4Layout->setMargin(Thickness(0.0f, 1.0f));
-		vertical->addView(text4, std::move(text4Layout));
-
+		auto root = std::make_shared<VerticalPanel>();
 		setRoot(root);
+
+		auto menuBar = std::make_shared<HorizontalPanel>();
+		menuBar->setPadding(Thickness(8.0f));
+		auto menuBarLayout = std::make_unique<VerticalPanel::LayoutParams>(Size::fill, Size::wrap);
+		root->addView(menuBar, std::move(menuBarLayout));
+
+		auto fileText = std::make_shared<Text>();
+		fileText->setText(u8"File");
+		fileText->setFont(font);
+		auto fileTextLayout = std::make_unique<HorizontalPanel::LayoutParams>();
+		menuBar->addView(fileText, std::move(fileTextLayout));
+
+		auto editText = std::make_shared<Text>();
+		editText->setText(u8"Edit");
+		editText->setFont(font);
+		auto editTextLayout = std::make_unique<HorizontalPanel::LayoutParams>();
+		editTextLayout->setMargin(Thickness(8.0f, 0.0f, 0.0f, 0.0f));
+		menuBar->addView(editText, std::move(editTextLayout));
+
+		auto contentPanel = std::make_shared<VerticalPanel>();
+		contentPanel->setPadding(Thickness(16.0f));
+		auto contentPanelLayout = std::make_unique<VerticalPanel::LayoutParams>(Size::fill, Size::fill);
+		root->addView(contentPanel, std::move(contentPanelLayout));
+
+		auto contentText = std::make_shared<Text>();
+		contentText->setText(u8"Content area");
+		contentText->setFont(font);
+		auto contentTextLayout = std::make_unique<VerticalPanel::LayoutParams>();
+		contentPanel->addView(contentText, std::move(contentTextLayout));
 	}
 }

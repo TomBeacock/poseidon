@@ -9,7 +9,7 @@
 namespace poseidon
 {
 	Text::Text() :
-		fontSize_(16.0f),
+		fontSize_(12.0f),
 		color_(0.0f, 0.0f, 0.0f, 1.0f),
 		baseline_(0.0f) {}
 

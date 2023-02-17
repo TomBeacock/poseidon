@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "view.h"
+#include "math/vec4.h"
 
 namespace poseidon
 {
@@ -81,6 +82,8 @@ namespace poseidon
 		inline const Thickness& padding() const { return padding_; }
 		inline void setPadding(const Thickness& padding) { padding_ = padding; }
 
+		inline void setColor(const Vec4& color) { color_ = color; }
+
 	protected:
 		virtual void onDraw(const Vec2& relativeOrigin) final;
 
@@ -90,6 +93,6 @@ namespace poseidon
 	private:
 		std::vector<std::shared_ptr<View>> children_;
 		Thickness padding_;
-	
+		Vec4 color_;
 	};
 }
