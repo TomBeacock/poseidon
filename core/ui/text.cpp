@@ -13,7 +13,7 @@ namespace poseidon
 		color_(0.0f, 0.0f, 0.0f, 1.0f),
 		baseline_(0.0f) {}
 
-	const Vec2& Text::onMeasure()
+	Vec2 Text::onMeasure()
 	{
 		if (font_ == nullptr)
 			return Vec2::zero;
@@ -32,7 +32,7 @@ namespace poseidon
 		}
 		baseline_ = maxY * scale;
 		size.y = maxY - minY;
-		return size * scale + margin().size();
+		return size * scale;
 	}
 
 	void Text::onLayout(const Vec2& position, const Vec2& size)
@@ -55,7 +55,7 @@ namespace poseidon
 				Vec2((float)glyph.width, (float)glyph.height) * scale
 			);
 			std::shared_ptr<Texture> atlas = font_->atlas();
-			Vec2 atlasSize = Vec2(atlas->width(), atlas->height());
+			Vec2 atlasSize = Vec2((float)atlas->width(), (float)atlas->height());
 			Vec2 uvMin = {
 				(float)glyph.uvX / atlasSize.x,
 				(atlasSize.y - (float)(glyph.uvY + glyph.height)) / atlasSize.y

@@ -2,12 +2,15 @@
 
 #include "rendering/renderer2d.h"
 #include "math/vec4.h"
+#include "panel.h"
 
 namespace poseidon
 {
-	const Vec2& Rectangle::onMeasure()
+	Vec2 Rectangle::onMeasure()
 	{
-		return preferredSize();
+		float width = layoutParams().width().type() == Size::Type::Exact ? layoutParams().width().size() : 0.0f;
+		float height = layoutParams().height().type() == Size::Type::Exact ? layoutParams().height().size() : 0.0f;
+		return Vec2(width, height);
 	}
 
 	void Rectangle::onLayout(const Vec2& position, const Vec2& size)

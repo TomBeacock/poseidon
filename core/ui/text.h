@@ -27,7 +27,7 @@ namespace poseidon
 		inline void setFontSize(float fontSize) { fontSize_ = fontSize; }
 
 	protected:
-		virtual const Vec2& onMeasure() override;
+		virtual Vec2 onMeasure() override;
 		virtual void onLayout(const Vec2& position, const Vec2& size) override;
 		virtual void onDraw(const Vec2& relativeOrigin) override;
 

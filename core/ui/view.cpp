@@ -1,21 +1,17 @@
 #include "view.h"
 
+#include "panel.h"
+
+#include "math/vec3.h"
+
 namespace poseidon
 {
 	View::View() :
 		position_(0.0f, 0.0f), size_(0.0f, 0.0f),
-		measuredSize_(0.0f, 0.0f), preferredSize_(-1.0f, -1.0f),
-		horizontalAlignment_(HorizontalAlignment::Left),
-		verticalAlignment_(VerticalAlignment::Top),
-		margin_()
-	{
+		measuredSize_(0.0f, 0.0f),
+		layoutParams_(std::make_unique<LayoutParams>()) {}
 
-	}
-
-	View::~View()
-	{
-
-	}
+	View::~View() = default;
 
 	void View::draw(const Vec2& relativeOrigin)
 	{
@@ -32,5 +28,20 @@ namespace poseidon
 		position_ = position;
 		size_ = size;
 		onLayout(position, size);
+	}
+
+	const LayoutParams& View::layoutParams() const
+	{
+		return *layoutParams_;
+	}
+
+	LayoutParams& View::layoutParams()
+	{
+		return *layoutParams_;
+	}
+
+	void View::setLayoutParams(std::unique_ptr<LayoutParams> layoutParams)
+	{
+		layoutParams_ = std::move(layoutParams);
 	}
 }
