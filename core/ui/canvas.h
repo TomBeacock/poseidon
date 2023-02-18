@@ -7,7 +7,7 @@
 
 namespace poseidon
 {
-	class View;
+	class Widget;
 
 	class Canvas : public Layer
 	{
@@ -19,7 +19,7 @@ namespace poseidon
 		virtual void onUpdate(float deltaTime) final;
 		virtual bool onEvent(const SDL_Event& event) final;
 
-		void setRoot(std::shared_ptr<View> root);
+		void setRoot(std::shared_ptr<Widget> root);
 
 	private:
 		void measure();
@@ -27,7 +27,7 @@ namespace poseidon
 		void paint();
 
 	private:
-		std::shared_ptr<View> root_;
+		std::shared_ptr<Widget> root_;
 		Mat4 projection_;
 	};
 }

@@ -21,7 +21,7 @@ add_library (core
 "rendering/shader.h" "rendering/shader.cpp"
 "rendering/texture.h" "rendering/texture.cpp"
 "ui/canvas.h" "ui/canvas.cpp"
-"ui/view.h" "ui/view.cpp"
+"ui/widget.h" "ui/widget.cpp"
 "ui/panel.h" "ui/panel.cpp"
 "ui/horizontal_panel.h" "ui/horizontal_panel.cpp"
 "ui/vertical_panel.h" "ui/vertical_panel.cpp"

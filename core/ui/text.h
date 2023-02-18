@@ -2,14 +2,14 @@
 
 #include <string>
 
-#include "view.h"
+#include "widget.h"
 #include "math/vec4.h"
 
 namespace poseidon
 {
 	class Font;
 
-	class Text : public View
+	class Text : public Widget
 	{
 	public:
 		Text();

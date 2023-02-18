@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include "view.h"
+#include "widget.h"
 #include "math/vec4.h"
 
 namespace poseidon
@@ -69,15 +69,15 @@ namespace poseidon
 		Thickness margin_;
 	};
 
-	class Panel : public View
+	class Panel : public Widget
 	{
 	public:
 		Panel();
 
-		inline const std::vector<std::shared_ptr<View>>& children() const { return children_; }
+		inline const std::vector<std::shared_ptr<Widget>>& children() const { return children_; }
 
-		inline void addView(std::shared_ptr<View> view) { children_.push_back(view); }
-		void addView(std::shared_ptr<View> view, std::unique_ptr<LayoutParams> layoutParams);
+		inline void addView(std::shared_ptr<Widget> view) { children_.push_back(view); }
+		void addView(std::shared_ptr<Widget> view, std::unique_ptr<LayoutParams> layoutParams);
 
 		inline const Thickness& padding() const { return padding_; }
 		inline void setPadding(const Thickness& padding) { padding_ = padding; }
@@ -91,7 +91,7 @@ namespace poseidon
 		void calculateChildArea(Vec2& position, Vec2& size);
 
 	private:
-		std::vector<std::shared_ptr<View>> children_;
+		std::vector<std::shared_ptr<Widget>> children_;
 		Thickness padding_;
 		Vec4 color_;
 	};

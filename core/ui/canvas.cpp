@@ -5,7 +5,7 @@
 #include "system/application.h"
 #include "system/window.h"
 #include "rendering/renderer2d.h"
-#include "view.h"
+#include "widget.h"
 
 namespace poseidon
 {
@@ -44,7 +44,7 @@ namespace poseidon
 		return false;
 	}
 
-	void Canvas::setRoot(std::shared_ptr<View> root)
+	void Canvas::setRoot(std::shared_ptr<Widget> root)
 	{
 		root_ = root;
 	}

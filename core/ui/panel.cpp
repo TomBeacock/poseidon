@@ -36,7 +36,7 @@ namespace poseidon
 	Panel::Panel() :
 		padding_(), color_(1.0f, 1.0f, 1.0f, 1.0f) {}
 
-	void Panel::addView(std::shared_ptr<View> view, std::unique_ptr<LayoutParams> layoutParams)
+	void Panel::addView(std::shared_ptr<Widget> view, std::unique_ptr<LayoutParams> layoutParams)
 	{
 		view->setLayoutParams(std::move(layoutParams));
 		children_.push_back(view);

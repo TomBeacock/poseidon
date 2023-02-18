@@ -12,11 +12,11 @@ namespace poseidon
 	enum class HorizontalAlignment { Left, Center, Right };
 	enum class VerticalAlignment { Top, Center, Bottom };
 
-	class View
+	class Widget
 	{
 	public:
-		View();
-		virtual ~View();
+		Widget();
+		virtual ~Widget();
 
 		void draw(const Vec2& relativeOrigin);
 		void measure();
