@@ -44,6 +44,7 @@ namespace poseidon
 
 	void Panel::onDraw(const Vec2& relativeOrigin)
 	{
+		Vec2 pos = actualPosition();
 		Renderer2D::drawRect(Bounds(relativeOrigin + actualPosition(), actualSize()), color_);
 		Vec2 newRelativeOrigin = relativeOrigin + actualPosition();
 		for (auto& child : children_)

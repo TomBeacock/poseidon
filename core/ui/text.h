@@ -32,6 +32,9 @@ namespace poseidon
 		virtual void onDraw(const Vec2& relativeOrigin) override;
 
 	private:
+		static std::shared_ptr<Font> defaultFont_;
+
+	private:
 		std::u8string text_;
 		std::shared_ptr<Font> font_;
 		Vec4 color_;

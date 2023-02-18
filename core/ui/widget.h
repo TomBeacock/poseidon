@@ -15,7 +15,6 @@ namespace poseidon
 	class Widget
 	{
 	public:
-		Widget();
 		virtual ~Widget();
 
 		void draw(const Vec2& relativeOrigin);
@@ -35,6 +34,8 @@ namespace poseidon
 		void setLayoutParams(std::unique_ptr<LayoutParams> layoutParams);
 
 	protected:
+		Widget();
+
 		virtual Vec2 onMeasure() = 0;
 		virtual void onLayout(const Vec2& position, const Vec2& size) = 0;
 		virtual void onDraw(const Vec2& relativeOrigin) = 0;

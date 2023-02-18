@@ -10,28 +10,23 @@ namespace editor
 {
 	EditorCanvas::EditorCanvas()
 	{
-		std::shared_ptr<Font> font = std::make_shared<Font>(RES_DIR "fonts/pixel-font.png", RES_DIR "fonts/pixel-font-values.json");
-
 		auto root = std::make_shared<VerticalPanel>();
 		setRoot(root);
 
 		auto menuBar = std::make_shared<HorizontalPanel>();
-		menuBar->setPadding(Thickness(8.0f));
+		menuBar->setColor({ 0.9f, 0.9f, 0.9f, 1.0f });
 		auto menuBarLayout = std::make_unique<VerticalPanel::LayoutParams>(Size::fill, Size::wrap);
 		root->addView(menuBar, std::move(menuBarLayout));
 
-		auto fileText = std::make_shared<Text>();
-		fileText->setText(u8"File");
-		fileText->setFont(font);
-		auto fileTextLayout = std::make_unique<HorizontalPanel::LayoutParams>();
-		menuBar->addView(fileText, std::move(fileTextLayout));
+		auto fileButton = std::make_shared<Button>();
+		fileButton->text().setText(u8"File");
+		auto fileButtonLayout = std::make_unique<HorizontalPanel::LayoutParams>();
+		menuBar->addView(fileButton, std::move(fileButtonLayout));
 
-		auto editText = std::make_shared<Text>();
-		editText->setText(u8"Edit");
-		editText->setFont(font);
-		auto editTextLayout = std::make_unique<HorizontalPanel::LayoutParams>();
-		editTextLayout->setMargin(Thickness(8.0f, 0.0f, 0.0f, 0.0f));
-		menuBar->addView(editText, std::move(editTextLayout));
+		auto editButton = std::make_shared<Button>();
+		editButton->text().setText(u8"Edit");
+		auto editButtonLayout = std::make_unique<HorizontalPanel::LayoutParams>();
+		menuBar->addView(editButton, std::move(editButtonLayout));
 
 		auto contentPanel = std::make_shared<VerticalPanel>();
 		contentPanel->setPadding(Thickness(16.0f));
@@ -40,7 +35,6 @@ namespace editor
 
 		auto contentText = std::make_shared<Text>();
 		contentText->setText(u8"Content area");
-		contentText->setFont(font);
 		auto contentTextLayout = std::make_unique<VerticalPanel::LayoutParams>();
 		contentPanel->addView(contentText, std::move(contentTextLayout));
 	}

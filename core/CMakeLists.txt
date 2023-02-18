@@ -25,6 +25,8 @@ add_library (core
 "ui/panel.h" "ui/panel.cpp"
 "ui/horizontal_panel.h" "ui/horizontal_panel.cpp"
 "ui/vertical_panel.h" "ui/vertical_panel.cpp"
+"ui/compound_widget.h" "ui/compound_widget.cpp"
+"ui/button.h" "ui/button.cpp"
 "ui/rectangle.h" "ui/rectangle.cpp" 
 "ui/thickness.h" "ui/thickness.cpp"
 "ui/font.h" "ui/font.cpp"

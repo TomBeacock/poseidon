@@ -8,15 +8,21 @@
 
 namespace poseidon
 {
+	std::shared_ptr<Font> Text::defaultFont_ = nullptr;
+
 	Text::Text() :
 		fontSize_(12.0f),
 		color_(0.0f, 0.0f, 0.0f, 1.0f),
-		baseline_(0.0f) {}
+		baseline_(0.0f)
+	{
+		if (defaultFont_ == nullptr)
+			defaultFont_ = std::make_shared<Font>(RES_DIR "fonts/pixel-font.png", RES_DIR "fonts/pixel-font-values.json");
+	}
 
 	Vec2 Text::onMeasure()
 	{
 		if (font_ == nullptr)
-			return Vec2::zero;
+			font_ = defaultFont_;
 
 		float scale = fontSize_ / (float)font_->height();
 		float minY = 0.0f, maxY = 0.0f;
@@ -43,7 +49,8 @@ namespace poseidon
 	void Text::onDraw(const Vec2& relativeOrigin)
 	{
 		if (font_ == nullptr)
-			return;
+			font_ = defaultFont_;
+
 		float scale = fontSize_ / (float)font_->height();
 		Vec2 pen = relativeOrigin + actualPosition() + Vec2(0.0f, baseline_);
 
