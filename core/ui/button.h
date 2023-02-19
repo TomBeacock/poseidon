@@ -11,6 +11,9 @@ namespace poseidon
 	public:
 		Button();
 
+		virtual void onMouseEnter() override;
+		virtual void onMouseExit() override;
+
 		Text& text();
 
 	private:

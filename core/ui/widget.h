@@ -22,6 +22,15 @@ namespace poseidon
 		void layout(const Vec2& position, const Vec2& size);
 		virtual std::shared_ptr<Widget> hitTest(const Vec2& position);
 
+		virtual void onMouseMoved() {};
+		virtual void onMouseEnter() {};
+		virtual void onMouseExit() {};
+		virtual void onMouseButtonDown() {};
+		virtual void onMouseButtonUp() {};
+
+		virtual void onKeyDown() {};
+		virtual void onKeyUp() {};
+
 		bool positionInRect(const Vec2& position) const;
 
 		inline const Vec2& actualPosition() const { return position_; }

@@ -28,6 +28,7 @@ namespace poseidon
 
 	private:
 		std::shared_ptr<Widget> root_;
+		std::weak_ptr<Widget> hovered_;
 		Mat4 projection_;
 	};
 }

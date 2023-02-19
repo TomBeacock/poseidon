@@ -9,15 +9,12 @@
 
 namespace poseidon
 {
-	Canvas::Canvas() : root_(nullptr), projection_(Mat4::identity)
-	{
+	Canvas::Canvas() :
+		root_(nullptr),
+		hovered_(),
+		projection_(Mat4::identity) {}
 
-	}
-
-	Canvas::~Canvas()
-	{
-
-	}
+	Canvas::~Canvas() = default;
 
 	void Canvas::onStart()
 	{
@@ -35,12 +32,55 @@ namespace poseidon
 
 	bool Canvas::onEvent(const SDL_Event& event)
 	{
-		if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED)
+		switch (event.type)
 		{
-			float width = (float)event.window.data1;
-			float height = (float)event.window.data2;
-			projection_ = Mat4::orthoOffCenter(0.0f, width, 0.0f, height);
+		case SDL_WINDOWEVENT:
+		{
+			if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+			{
+				float width = (float)event.window.data1;
+				float height = (float)event.window.data2;
+				projection_ = Mat4::orthoOffCenter(0.0f, width, 0.0f, height);
+			}
+			break;
 		}
+		case SDL_MOUSEMOTION:
+		{
+			if (root_)
+			{
+				auto prevHovered = hovered_.lock();
+				auto currHovered = root_->hitTest({ (float)event.motion.x, (float)event.motion.y });
+
+				if (prevHovered != currHovered)
+				{
+					if (prevHovered)
+						prevHovered->onMouseExit();
+					if (currHovered)
+					{
+						currHovered->onMouseEnter();
+						currHovered->onMouseMoved();
+					}
+					hovered_ = currHovered;
+				}
+				else if(prevHovered)
+					prevHovered->onMouseMoved();
+			}
+			break;
+		}
+		case SDL_MOUSEBUTTONDOWN:
+		{
+			if (auto hovered = hovered_.lock())
+				hovered->onMouseButtonDown();
+			break;
+		}
+		case SDL_MOUSEBUTTONUP:
+		{
+			if (auto hovered = hovered_.lock())
+				hovered->onMouseButtonDown();
+			break;
+		}
+		}
+
 		return false;
 	}
 
