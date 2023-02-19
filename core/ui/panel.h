@@ -74,6 +74,8 @@ namespace poseidon
 	public:
 		Panel();
 
+		virtual std::shared_ptr<Widget> hitTest(const Vec2& position) override;
+
 		inline const std::vector<std::shared_ptr<Widget>>& children() const { return children_; }
 
 		inline void addView(std::shared_ptr<Widget> view) { children_.push_back(view); }

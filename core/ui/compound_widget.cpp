@@ -2,6 +2,18 @@
 
 namespace poseidon
 {
+	std::shared_ptr<Widget> CompoundWidget::hitTest(const Vec2& position)
+	{
+		if (!positionInRect(position))
+			return nullptr;
+
+		std::shared_ptr<Widget> hitResult;
+		if (root_ && (hitResult = root_->hitTest(position - actualPosition())))
+			return hitResult;
+
+		return hitTestable() ? shared_from_this() : nullptr;
+	}
+
 	CompoundWidget::CompoundWidget() :
 		root_(nullptr) {}
 

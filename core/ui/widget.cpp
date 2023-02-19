@@ -7,8 +7,8 @@
 namespace poseidon
 {
 	Widget::Widget() :
-		position_(0.0f, 0.0f), size_(0.0f, 0.0f),
-		measuredSize_(0.0f, 0.0f),
+		position_(0.0f, 0.0f), size_(0.0f, 0.0f), measuredSize_(0.0f, 0.0f),
+		hitTestable_(false),
 		layoutParams_(std::make_unique<LayoutParams>()) {}
 
 	Widget::~Widget() = default;
@@ -28,6 +28,22 @@ namespace poseidon
 		position_ = position;
 		size_ = size;
 		onLayout(position, size);
+	}
+
+	std::shared_ptr<Widget> Widget::hitTest(const Vec2& position)
+	{
+		if (hitTestable() && positionInRect(position))
+			return shared_from_this();
+		return nullptr;
+	}
+
+	bool Widget::positionInRect(const Vec2& position) const
+	{
+		return
+			position.x >= position_.x &&
+			position.y >= position_.y &&
+			position.x <= position_.x + size_.x &&
+			position.y <= position_.y + size_.y;
 	}
 
 	const LayoutParams& Widget::layoutParams() const

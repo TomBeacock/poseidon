@@ -36,6 +36,21 @@ namespace poseidon
 	Panel::Panel() :
 		padding_(), color_(1.0f, 1.0f, 1.0f, 1.0f) {}
 
+	std::shared_ptr<Widget> Panel::hitTest(const Vec2& position)
+	{
+		if (!positionInRect(position))
+			return nullptr;
+
+		Vec2 relativePosition = position - actualPosition();
+		for(auto& child : children_)
+		{
+			auto hitResult = child->hitTest(relativePosition);
+			if (hitResult != nullptr)
+				return hitResult;
+		}
+		return hitTestable() ? shared_from_this() : nullptr;
+	}
+
 	void Panel::addView(std::shared_ptr<Widget> view, std::unique_ptr<LayoutParams> layoutParams)
 	{
 		view->setLayoutParams(std::move(layoutParams));

@@ -12,7 +12,7 @@ namespace poseidon
 	enum class HorizontalAlignment { Left, Center, Right };
 	enum class VerticalAlignment { Top, Center, Bottom };
 
-	class Widget
+	class Widget : public std::enable_shared_from_this<Widget>
 	{
 	public:
 		virtual ~Widget();
@@ -20,14 +20,19 @@ namespace poseidon
 		void draw(const Vec2& relativeOrigin);
 		void measure();
 		void layout(const Vec2& position, const Vec2& size);
+		virtual std::shared_ptr<Widget> hitTest(const Vec2& position);
+
+		bool positionInRect(const Vec2& position) const;
 
 		inline const Vec2& actualPosition() const { return position_; }
 		inline const Vec2& actualSize() const { return size_; }
 
 		inline float measuredWidth() const { return measuredSize_.x; }
 		inline float measuredHeight() const { return measuredSize_.y; }
-
 		inline const Vec2& measuredSize() const { return measuredSize_; }
+
+		inline bool hitTestable() const { return hitTestable_; }
+		inline void setHitTestable(bool hitTestable) { hitTestable_ = hitTestable; }
 
 		const LayoutParams& layoutParams() const;
 		LayoutParams& layoutParams();
@@ -44,6 +49,7 @@ namespace poseidon
 		Vec2 position_;
 		Vec2 size_;
 		Vec2 measuredSize_;
+		bool hitTestable_;
 		std::unique_ptr<LayoutParams> layoutParams_;
 	};
 }

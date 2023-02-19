@@ -6,6 +6,9 @@ namespace poseidon
 {
 	class CompoundWidget : public Widget
 	{
+	public:
+		virtual std::shared_ptr<Widget> hitTest(const Vec2& position) override;
+
 	protected:
 		CompoundWidget();
 

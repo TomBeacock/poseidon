@@ -7,6 +7,8 @@ namespace poseidon
 {
 	Button::Button()
 	{
+		setHitTestable(true);
+
 		auto hPanel = std::make_unique<VerticalPanel>();
 		hPanel->setPadding(Thickness(8.0f, 4.0f));
 
