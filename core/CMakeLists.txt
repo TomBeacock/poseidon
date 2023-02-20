@@ -32,7 +32,7 @@ add_library (core
 "ui/font.h" "ui/font.cpp"
 "ui/text.h" "ui/text.cpp"
 "util/utf8_iterator.h" "util/utf8_iterator.cpp"
- )
+  "ui/anchor_panel.h" "ui/anchor_panel.cpp")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
