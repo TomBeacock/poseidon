@@ -6,6 +6,7 @@
 #include "ui/panel.h"
 #include "ui/horizontal_panel.h"
 #include "ui/vertical_panel.h"
+#include "ui/anchor_panel.h"
 
 #include "ui/compound_widget.h"
 #include "ui/button.h"
