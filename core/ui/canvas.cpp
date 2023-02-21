@@ -7,6 +7,8 @@
 #include "rendering/renderer2d.h"
 #include "widget.h"
 
+#include <iostream>
+
 namespace poseidon
 {
 	Canvas::Canvas() :
@@ -69,6 +71,17 @@ namespace poseidon
 		}
 		case SDL_MOUSEBUTTONDOWN:
 		{
+			auto hovered = hovered_.lock();
+			auto focused = focused_.lock();
+			if (focused != hovered)
+			{
+				if (focused)
+					focused->onFocusedLost();
+				if (hovered)
+					hovered->onFocusedGained();
+				focused_ = hovered;
+			}
+
 			if (auto hovered = hovered_.lock())
 				hovered->onMouseButtonDown();
 			break;
@@ -78,6 +91,11 @@ namespace poseidon
 			if (auto hovered = hovered_.lock())
 				hovered->onMouseButtonDown();
 			break;
+		}
+		case SDL_KEYDOWN:
+		{
+			if (auto focused = focused_.lock())
+				focused->onKeyDown();
 		}
 		}
 

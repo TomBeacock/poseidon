@@ -22,14 +22,17 @@ namespace poseidon
 		void layout(const Vec2& position, const Vec2& size);
 		virtual std::shared_ptr<Widget> hitTest(const Vec2& position);
 
-		virtual void onMouseMoved() {};
-		virtual void onMouseEnter() {};
-		virtual void onMouseExit() {};
-		virtual void onMouseButtonDown() {};
-		virtual void onMouseButtonUp() {};
+		virtual void onMouseMoved() {}
+		virtual void onMouseEnter() {}
+		virtual void onMouseExit() {}
+		virtual void onMouseButtonDown() {}
+		virtual void onMouseButtonUp() {}
 
-		virtual void onKeyDown() {};
-		virtual void onKeyUp() {};
+		virtual void onKeyDown() {}
+		virtual void onKeyUp() {}
+
+		virtual void onFocusedGained() {}
+		virtual void onFocusedLost() {}
 
 		bool positionInRect(const Vec2& position) const;
 
@@ -42,6 +45,9 @@ namespace poseidon
 
 		inline bool hitTestable() const { return hitTestable_; }
 		inline void setHitTestable(bool hitTestable) { hitTestable_ = hitTestable; }
+
+		inline bool focusable() const { return focusable_; }
+		inline void setFocusable(bool focusable) { focusable_ = focusable; }
 
 		const LayoutParams& layoutParams() const;
 		LayoutParams& layoutParams();
@@ -59,6 +65,7 @@ namespace poseidon
 		Vec2 size_;
 		Vec2 measuredSize_;
 		bool hitTestable_;
+		bool focusable_;
 		std::unique_ptr<LayoutParams> layoutParams_;
 	};
 }
