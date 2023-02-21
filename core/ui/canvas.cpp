@@ -4,10 +4,9 @@
 
 #include "system/application.h"
 #include "system/window.h"
+#include "system/events/events.h"
 #include "rendering/renderer2d.h"
 #include "widget.h"
-
-#include <iostream>
 
 namespace poseidon
 {
@@ -95,7 +94,18 @@ namespace poseidon
 		case SDL_KEYDOWN:
 		{
 			if (auto focused = focused_.lock())
-				focused->onKeyDown();
+			{
+				KeyEvent keyEvent((KeyCode)event.key.keysym.sym, (KeyModifier)event.key.keysym.mod);
+				focused->onKeyDown(keyEvent);
+			}
+		}
+		case SDL_KEYUP:
+		{
+			if (auto focused = focused_.lock())
+			{
+				KeyEvent keyEvent((KeyCode)event.key.keysym.sym, (KeyModifier)event.key.keysym.mod);
+				focused->onKeyUp(keyEvent);
+			}
 		}
 		}
 

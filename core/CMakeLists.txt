@@ -9,6 +9,8 @@ add_library (core
 "system/window.h" "system/window.cpp"
 "system/layer.h"
 "system/layer_stack.h" "system/layer_stack.cpp"
+"system/events/events.h"
+"system/events/keycode.h"
 "math/vec2.h" "math/vec2.cpp"
 "math/vec3.h" "math/vec3.cpp"
 "math/vec4.h" "math/vec4.cpp"
@@ -32,7 +34,8 @@ add_library (core
 "ui/font.h" "ui/font.cpp"
 "ui/text.h" "ui/text.cpp"
 "util/utf8_iterator.h" "util/utf8_iterator.cpp"
-  "ui/anchor_panel.h" "ui/anchor_panel.cpp")
+"ui/anchor_panel.h" "ui/anchor_panel.cpp"
+ "system/events/events.cpp")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
