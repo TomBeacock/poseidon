@@ -3,6 +3,7 @@
 #include <vector>
 #include "layer_stack.h"
 
+union SDL_Event;
 
 namespace poseidon
 {
@@ -23,6 +24,9 @@ namespace poseidon
 		void execute();
 
 		inline void addLayer(std::unique_ptr<Layer> layer) { layerStack_.add(std::move(layer)); }
+
+	private:
+		bool dispatchEvent(const SDL_Event& event);
 
 	private:
 		LayerStack layerStack_;

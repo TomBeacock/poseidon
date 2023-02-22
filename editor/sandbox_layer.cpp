@@ -2,6 +2,7 @@
 
 #include <poseidon/math.h>
 #include <poseidon/rendering.h>
+#include <poseidon/events.h>
 #include <array>
 #include <numbers>
 
@@ -91,7 +92,7 @@ namespace editor
 		Renderer2D::end();
 	}
 
-	bool SandboxLayer::onEvent(const SDL_Event& event)
+	bool SandboxLayer::onEvent(const Event& event)
 	{
 		return false;
 	}

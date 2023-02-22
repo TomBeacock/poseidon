@@ -1,7 +1,5 @@
 #pragma once
 
-union SDL_Event;
-
 namespace poseidon
 {
 	class Layer
@@ -12,6 +10,6 @@ namespace poseidon
 
 		virtual void onStart() = 0;
 		virtual void onUpdate(float deltaTime) = 0;
-		virtual bool onEvent(const SDL_Event& event) = 0;
+		virtual bool onEvent(const class Event& event) = 0;
 	};
 }

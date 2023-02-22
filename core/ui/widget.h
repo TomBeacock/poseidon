@@ -7,7 +7,6 @@
 
 namespace poseidon
 {
-	struct KeyEvent;
 	class LayoutParams;
 
 	enum class HorizontalAlignment { Left, Center, Right };
@@ -29,8 +28,8 @@ namespace poseidon
 		virtual void onMouseButtonDown() {}
 		virtual void onMouseButtonUp() {}
 
-		virtual void onKeyDown(const KeyEvent& event) {}
-		virtual void onKeyUp(const KeyEvent& event) {}
+		virtual void onKeyDown(const class KeyDownEvent& event) {}
+		virtual void onKeyUp(const class KeyUpEvent& event) {}
 
 		virtual void onFocusedGained() {}
 		virtual void onFocusedLost() {}

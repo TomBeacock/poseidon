@@ -17,7 +17,7 @@ namespace poseidon
 
 		virtual void onStart() final;
 		virtual void onUpdate(float deltaTime) final;
-		virtual bool onEvent(const SDL_Event& event) final;
+		virtual bool onEvent(const Event& event) final;
 
 		void setRoot(std::shared_ptr<Widget> root);
 

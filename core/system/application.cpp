@@ -12,13 +12,9 @@
 #include "math/vec3.h"
 #include "math/vec4.h"
 #include "math/mat4.h"
+#include "poseidon/events.h"
 #include "rendering/renderer.h"
 #include "rendering/renderer2d.h"
-#include "rendering/array_buffer.h"
-#include "rendering/index_buffer.h"
-#include "rendering/vertex_array.h"
-#include "rendering/shader.h"
-#include "rendering/texture.h"
 
 #define RES(file) RES_DIR file
 
@@ -79,11 +75,11 @@ namespace poseidon
 					Renderer::setViewport(0, 0, width, height);
 				}
 
-				// Send event to layers
-				if (layerStack_.onEvent(event))
+				// Dispatch event to layers
+				if (dispatchEvent(event))
 					continue;
 
-				// Default handling
+				// Default event handling
 				if (event.type == SDL_QUIT)
 					running = false;
 			}
@@ -94,5 +90,116 @@ namespace poseidon
 
 			window_->swapBuffers();
 		}
+	}
+
+	bool Application::dispatchEvent(const SDL_Event& event)
+	{
+		switch (event.type)
+		{
+		case SDL_KEYDOWN:
+		{
+			KeyDownEvent e(
+				static_cast<KeyCode>(event.key.keysym.sym),
+				static_cast<ScanCode>(event.key.keysym.scancode),
+				static_cast<KeyModifiers>(event.key.keysym.mod),
+				event.key.repeat);
+
+			return layerStack_.onEvent(e);
+		}
+		case SDL_KEYUP:
+		{
+			KeyUpEvent e(
+				static_cast<KeyCode>(event.key.keysym.sym),
+				static_cast<ScanCode>(event.key.keysym.scancode),
+				static_cast<KeyModifiers>(event.key.keysym.mod));
+
+			return layerStack_.onEvent(e);
+		}
+		case SDL_MOUSEBUTTONDOWN:
+		{
+			MouseButtonDownEvent e(
+				static_cast<ButtonCode>(event.button.button),
+				event.button.x,
+				event.button.y);
+
+			return layerStack_.onEvent(e);
+		}
+		case SDL_MOUSEBUTTONUP:
+		{
+			MouseButtonUpEvent e(
+				static_cast<ButtonCode>(event.button.button),
+				event.button.x,
+				event.button.y);
+
+			return layerStack_.onEvent(e);
+		}
+		case SDL_MOUSEMOTION:
+		{
+			MouseMotionEvent e(
+				event.motion.x,
+				event.motion.y,
+				event.motion.xrel,
+				event.motion.yrel);
+			return layerStack_.onEvent(e);
+		}
+		case SDL_WINDOWEVENT:
+		{
+			switch (event.window.type)
+			{
+			case SDL_WINDOWEVENT_MOVED:
+			{
+				WindowMovedEvent e(
+					event.window.data1,
+					event.window.data2);
+				return layerStack_.onEvent(e);
+			}
+			case SDL_WINDOWEVENT_RESIZED:
+			{
+				WindowMovedEvent e(
+					event.window.data1,
+					event.window.data2);
+				return layerStack_.onEvent(e);
+			}
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+			{
+				WindowSizeChangedEvent e(
+					event.window.data1,
+					event.window.data2);
+				return layerStack_.onEvent(e);
+			}
+			case SDL_WINDOWEVENT_MINIMIZED:
+			{
+				WindowMinimizedEvent e;
+				return layerStack_.onEvent(e);
+			}
+			case SDL_WINDOWEVENT_MAXIMIZED:
+			{
+				WindowMaximizedEvent e;
+				return layerStack_.onEvent(e);
+			}
+			case SDL_WINDOWEVENT_RESTORED:
+			{
+				WindowRestoredEvent e;
+				return layerStack_.onEvent(e);
+			}
+			case SDL_WINDOWEVENT_FOCUS_GAINED:
+			{
+				WindowFocusGainedEvent e;
+				return layerStack_.onEvent(e);
+			}
+			case SDL_WINDOWEVENT_FOCUS_LOST:
+			{
+				WindowFocusLostEvent e;
+				return layerStack_.onEvent(e);
+			}
+			case SDL_WINDOWEVENT_CLOSE:
+			{
+				WindowCloseEvent e;
+				return layerStack_.onEvent(e);
+			}
+			}
+		}
+		}
+		return false;
 	}
 }

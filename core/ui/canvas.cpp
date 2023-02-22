@@ -4,7 +4,9 @@
 
 #include "system/application.h"
 #include "system/window.h"
-#include "system/events/events.h"
+#include "poseidon/events.h"
+#include "events/key_events.h"
+#include "events/mouse_events.h"
 #include "rendering/renderer2d.h"
 #include "widget.h"
 
@@ -31,26 +33,24 @@ namespace poseidon
 		paint();
 	}
 
-	bool Canvas::onEvent(const SDL_Event& event)
+	bool Canvas::onEvent(const Event& event)
 	{
-		switch (event.type)
+		switch (event.type())
 		{
-		case SDL_WINDOWEVENT:
+		case Event::Type::WindowResized:
 		{
-			if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-			{
-				float width = (float)event.window.data1;
-				float height = (float)event.window.data2;
-				projection_ = Mat4::orthoOffCenter(0.0f, width, 0.0f, height);
-			}
+			const auto& e = static_cast<const WindowResizedEvent&>(event);
+			projection_ = Mat4::orthoOffCenter(0.0f, (float)e.width(), 0.0f, (float)e.height());
 			break;
 		}
-		case SDL_MOUSEMOTION:
+		case Event::Type::MouseMotion:
 		{
 			if (root_)
 			{
+				const auto& e = static_cast<const MouseMotionEvent&>(event);
+
 				auto prevHovered = hovered_.lock();
-				auto currHovered = root_->hitTest({ (float)event.motion.x, (float)event.motion.y });
+				auto currHovered = root_->hitTest({ (float)e.x(), (float)e.y() });
 
 				if (prevHovered != currHovered)
 				{
@@ -68,7 +68,7 @@ namespace poseidon
 			}
 			break;
 		}
-		case SDL_MOUSEBUTTONDOWN:
+		case Event::Type::MouseButtonDown:
 		{
 			auto hovered = hovered_.lock();
 			auto focused = focused_.lock();
@@ -85,26 +85,26 @@ namespace poseidon
 				hovered->onMouseButtonDown();
 			break;
 		}
-		case SDL_MOUSEBUTTONUP:
+		case Event::Type::MouseButtonUp:
 		{
 			if (auto hovered = hovered_.lock())
 				hovered->onMouseButtonDown();
 			break;
 		}
-		case SDL_KEYDOWN:
+		case Event::Type::KeyDown:
 		{
 			if (auto focused = focused_.lock())
 			{
-				KeyEvent keyEvent((KeyCode)event.key.keysym.sym, (KeyModifier)event.key.keysym.mod);
-				focused->onKeyDown(keyEvent);
+				const auto& e = static_cast<const KeyDownEvent&>(event);
+				focused->onKeyDown(e);
 			}
 		}
-		case SDL_KEYUP:
+		case Event::Type::KeyUp:
 		{
 			if (auto focused = focused_.lock())
 			{
-				KeyEvent keyEvent((KeyCode)event.key.keysym.sym, (KeyModifier)event.key.keysym.mod);
-				focused->onKeyUp(keyEvent);
+				const auto& e = static_cast<const KeyUpEvent&>(event);
+				focused->onKeyUp(e);
 			}
 		}
 		}

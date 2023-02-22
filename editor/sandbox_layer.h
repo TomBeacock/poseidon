@@ -3,10 +3,9 @@
 #include <poseidon/core.h>
 #include <memory>
 
-union SDL_Event;
-
 namespace poseidon
 {
+	class Event;
 	class ArrayBuffer;
 	class IndexBuffer;
 	class VertexArray;
@@ -24,7 +23,7 @@ namespace editor
 
 		virtual void onStart() override;
 		virtual void onUpdate(float deltaTime) override;
-		virtual bool onEvent(const SDL_Event& event) override;
+		virtual bool onEvent(const poseidon::Event& event) override;
 
 	private:
 		std::unique_ptr<poseidon::ArrayBuffer> cubeVbo_;

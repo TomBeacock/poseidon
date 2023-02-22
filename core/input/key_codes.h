@@ -548,21 +548,21 @@ namespace poseidon
         EndCall = SCANCODE_TO_KEYCODE(static_cast<std::underlying_type<ScanCode>::type>(ScanCode::EndCall))
     };
 
-    enum class KeyModifier : uint32_t
+    enum class KeyModifiers : uint16_t
     {
-        None = 0x0000,
-        LeftShift = 0x0001,
-        RightShift = 0x0002,
-        LeftCtrl = 0x0040,
-        RightCtrl = 0x0080,
-        LeftAlt = 0x0100,
-        RightAlt = 0x0200,
-        LeftGUI = 0x0400,
-        RightGUI = 0x0800,
-        Num = 0x1000,
-        Caps = 0x2000,
-        Mode = 0x4000,
-        Scroll = 0x8000,
+        None        = 0x0000,
+        LeftShift   = 0x0001,
+        RightShift  = 0x0002,
+        LeftCtrl    = 0x0040,
+        RightCtrl   = 0x0080,
+        LeftAlt     = 0x0100,
+        RightAlt    = 0x0200,
+        LeftGUI     = 0x0400,
+        RightGUI    = 0x0800,
+        Num         = 0x1000,
+        Caps        = 0x2000,
+        Mode        = 0x4000,
+        Scroll      = 0x8000,
 
         Ctrl = LeftCtrl | RightCtrl,
         Shift = LeftShift | RightShift,
@@ -571,4 +571,7 @@ namespace poseidon
 
         Reserved = Scroll
     };
+
+    KeyModifiers operator|(KeyModifiers lhs, KeyModifiers rhs);
+    KeyModifiers operator&(KeyModifiers lhs, KeyModifiers rhs);
 }

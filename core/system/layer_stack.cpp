@@ -1,6 +1,7 @@
 #include "layer_stack.h"
 
 #include "layer.h"
+#include "events/event.h"
 
 namespace poseidon
 {
@@ -12,7 +13,7 @@ namespace poseidon
 		}
 	}
 
-	bool LayerStack::onEvent(const SDL_Event& event)
+	bool LayerStack::onEvent(const Event& event)
 	{
 		for (auto& layer : layerStack_)
 		{
