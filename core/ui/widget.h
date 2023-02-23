@@ -22,11 +22,11 @@ namespace poseidon
 		void layout(const Vec2& position, const Vec2& size);
 		virtual std::shared_ptr<Widget> hitTest(const Vec2& position);
 
-		virtual void onMouseMoved() {}
-		virtual void onMouseEnter() {}
-		virtual void onMouseExit() {}
-		virtual void onMouseButtonDown() {}
-		virtual void onMouseButtonUp() {}
+		virtual void onMouseMoved(const class MouseMotionEvent& event) {}
+		virtual void onMouseEnter(const class MouseMotionEvent& event) {}
+		virtual void onMouseExit(const class MouseMotionEvent& event) {}
+		virtual void onMouseButtonDown(const class MouseButtonDownEvent& event) {}
+		virtual void onMouseButtonUp(const class MouseButtonUpEvent& event) {}
 
 		virtual void onKeyDown(const class KeyDownEvent& event) {}
 		virtual void onKeyUp(const class KeyUpEvent& event) {}

@@ -55,16 +55,16 @@ namespace poseidon
 				if (prevHovered != currHovered)
 				{
 					if (prevHovered)
-						prevHovered->onMouseExit();
+						prevHovered->onMouseExit(e);
 					if (currHovered)
 					{
-						currHovered->onMouseEnter();
-						currHovered->onMouseMoved();
+						currHovered->onMouseEnter(e);
+						currHovered->onMouseMoved(e);
 					}
 					hovered_ = currHovered;
 				}
 				else if(prevHovered)
-					prevHovered->onMouseMoved();
+					prevHovered->onMouseMoved(e);
 			}
 			break;
 		}
@@ -82,13 +82,19 @@ namespace poseidon
 			}
 
 			if (auto hovered = hovered_.lock())
-				hovered->onMouseButtonDown();
+			{
+				const auto& e = static_cast<const MouseButtonDownEvent&>(event);
+				hovered->onMouseButtonDown(e);
+			}
 			break;
 		}
 		case Event::Type::MouseButtonUp:
 		{
 			if (auto hovered = hovered_.lock())
-				hovered->onMouseButtonDown();
+			{
+				const auto& e = static_cast<const MouseButtonUpEvent&>(event);
+				hovered->onMouseButtonUp(e);
+			}
 			break;
 		}
 		case Event::Type::KeyDown:

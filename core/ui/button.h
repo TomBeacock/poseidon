@@ -11,8 +11,8 @@ namespace poseidon
 	public:
 		Button();
 
-		virtual void onMouseEnter() override;
-		virtual void onMouseExit() override;
+		virtual void onMouseEnter(const class MouseMotionEvent& event) override;
+		virtual void onMouseExit(const class MouseMotionEvent& event) override;
 
 		Text& text();
 

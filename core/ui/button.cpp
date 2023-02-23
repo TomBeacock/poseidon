@@ -20,7 +20,7 @@ namespace poseidon
 		setRoot(std::move(vPanel));
 	}
 
-	void Button::onMouseEnter()
+	void Button::onMouseEnter(const class MouseMotionEvent& event)
 	{
 		if (root())
 		{
@@ -29,7 +29,7 @@ namespace poseidon
 		}
 	}
 
-	void Button::onMouseExit()
+	void Button::onMouseExit(const class MouseMotionEvent& event)
 	{
 		if (root())
 		{
