@@ -104,6 +104,7 @@ namespace poseidon
 				const auto& e = static_cast<const KeyDownEvent&>(event);
 				focused->onKeyDown(e);
 			}
+			break;
 		}
 		case Event::Type::KeyUp:
 		{
@@ -112,6 +113,7 @@ namespace poseidon
 				const auto& e = static_cast<const KeyUpEvent&>(event);
 				focused->onKeyUp(e);
 			}
+			break;
 		}
 		}
 

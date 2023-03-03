@@ -40,7 +40,7 @@ namespace poseidon
 	public:
 		MouseButtonUpEvent(ButtonCode buttonCode, int32_t x, int32_t y);
 
-		virtual Type type() const override { return Type::MouseButtonDown; }
+		virtual Type type() const override { return Type::MouseButtonUp; }
 	};
 
 	class MouseMotionEvent : public Event
