@@ -19,9 +19,9 @@ namespace poseidon
 		virtual void onDraw(const Vec2& relativeOrigin) override;
 
 		Widget*const root() { return root_.get(); };
-		void setRoot(std::unique_ptr<Widget> root) { root_ = std::move(root); }
+		void setRoot(std::shared_ptr<Widget> root) { root_ = root; }
 
 	private:
-		std::unique_ptr<Widget> root_;
+		std::shared_ptr<Widget> root_;
 	};
 }

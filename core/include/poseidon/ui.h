@@ -10,6 +10,7 @@
 
 #include "ui/compound_widget.h"
 #include "ui/button.h"
+#include "ui/tab_panel.h"
 
 #include "ui/rectangle.h"
 #include "ui/text.h"

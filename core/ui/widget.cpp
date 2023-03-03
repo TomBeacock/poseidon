@@ -10,7 +10,8 @@ namespace poseidon
 		position_(0.0f, 0.0f), size_(0.0f, 0.0f), measuredSize_(0.0f, 0.0f),
 		hitTestable_(false),
 		focusable_(false),
-		layoutParams_(std::make_unique<LayoutParams>()) {}
+		layoutParams_(std::make_unique<LayoutParams>()),
+		parent_() {}
 
 	Widget::~Widget() = default;
 

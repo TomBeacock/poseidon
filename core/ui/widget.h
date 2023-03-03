@@ -8,12 +8,15 @@
 namespace poseidon
 {
 	class LayoutParams;
+	class Panel;
 
 	enum class HorizontalAlignment { Left, Center, Right };
 	enum class VerticalAlignment { Top, Center, Bottom };
 
 	class Widget : public std::enable_shared_from_this<Widget>
 	{
+		friend Panel;
+
 	public:
 		virtual ~Widget();
 
@@ -53,6 +56,8 @@ namespace poseidon
 		LayoutParams& layoutParams();
 		void setLayoutParams(std::unique_ptr<LayoutParams> layoutParams);
 
+		const std::weak_ptr<Panel>& parent() { return parent_; }
+
 	protected:
 		Widget();
 
@@ -67,5 +72,6 @@ namespace poseidon
 		bool hitTestable_;
 		bool focusable_;
 		std::unique_ptr<LayoutParams> layoutParams_;
+		std::weak_ptr<Panel> parent_;
 	};
 }

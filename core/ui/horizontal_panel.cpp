@@ -26,7 +26,7 @@ namespace poseidon
 		{
 			Thickness margin;
 			try { margin = dynamic_cast<const MarginLayoutParams&>(child->layoutParams()).margin(); }
-			catch (std::bad_cast e) { std::cerr << "Failed to cast to margin layout: " << e.what() << std::endl; }
+			catch (std::bad_cast e) {}
 
 			size.x += child->measuredWidth() + margin.horizontal();
 			size.y = std::max(size.y, child->measuredHeight() + margin.vertical());
@@ -53,7 +53,7 @@ namespace poseidon
 
 			Thickness childMargin;
 			try { childMargin = dynamic_cast<const MarginLayoutParams&>(childLayout).margin(); }
-			catch (std::bad_cast e) { std::cerr << "Failed to cast to margin layout: " << e.what() << std::endl; }
+			catch (std::bad_cast e) {}
 
 			if (childLayout.width().type() == Size::Type::Fill)
 				++fillCount;
@@ -71,7 +71,7 @@ namespace poseidon
 
 			Thickness margin;
 			try { margin = dynamic_cast<const MarginLayoutParams&>(childLayout).margin(); }
-			catch (std::bad_cast e) { std::cerr << "Failed to cast to margin layout: " << e.what() << std::endl; }
+			catch (std::bad_cast e) {}
 
 			Vec2 childSize;
 
@@ -102,7 +102,7 @@ namespace poseidon
 					case VerticalAlignment::Bottom: childPos.y += s.x - (childSize.y + margin.bottom); break;
 					}
 				}
-				catch (std::bad_cast e) { std::cerr << "Failed to cast to horizontal layout: " << e.what() << std::endl;  }
+				catch (std::bad_cast e) {}
 			}
 
 			child->layout(childPos, childSize);

@@ -78,8 +78,9 @@ namespace poseidon
 
 		inline const std::vector<std::shared_ptr<Widget>>& children() const { return children_; }
 
-		inline void addView(std::shared_ptr<Widget> view) { children_.push_back(view); }
-		void addView(std::shared_ptr<Widget> view, std::unique_ptr<LayoutParams> layoutParams);
+		void addChild(std::shared_ptr<Widget> child);
+		void addChild(std::shared_ptr<Widget> child, std::unique_ptr<LayoutParams> layoutParams);
+		void removeChild(const std::shared_ptr<Widget>& child);
 
 		inline const Thickness& padding() const { return padding_; }
 		inline void setPadding(const Thickness& padding) { padding_ = padding; }

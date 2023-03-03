@@ -2,6 +2,8 @@
 
 #include "rendering/renderer2d.h"
 
+#include <iostream>
+
 namespace poseidon
 {
 	Size::Size(float size) :
@@ -51,10 +53,29 @@ namespace poseidon
 		return hitTestable() ? shared_from_this() : nullptr;
 	}
 
-	void Panel::addView(std::shared_ptr<Widget> view, std::unique_ptr<LayoutParams> layoutParams)
+	void Panel::addChild(std::shared_ptr<Widget> child)
+	{
+		if (auto parent = child->parent_.lock()) {
+			std::cerr << "Trying to add a widget that already has a parent, remove it from it's parent first." << std::endl;
+			parent->removeChild(child);
+		}
+		auto widget = shared_from_this();
+		auto panel = std::static_pointer_cast<Panel>(widget);
+		child->parent_ = panel;
+		children_.push_back(child);
+	}
+
+	void Panel::addChild(std::shared_ptr<Widget> view, std::unique_ptr<LayoutParams> layoutParams)
 	{
 		view->setLayoutParams(std::move(layoutParams));
-		children_.push_back(view);
+		addChild(view);
+	}
+
+	void Panel::removeChild(const std::shared_ptr<Widget>& child)
+	{
+		const auto it = std::find(children_.begin(), children_.end(), child);
+		if (it != children_.end())
+			children_.erase(it);
 	}
 
 	void Panel::onDraw(const Vec2& relativeOrigin)

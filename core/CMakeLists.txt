@@ -47,7 +47,7 @@ add_library (core
 "ui/anchor_panel.h" "ui/anchor_panel.cpp"
 
 "util/utf8_iterator.h" "util/utf8_iterator.cpp"
-)
+ "ui/tab_panel.h" "ui/tab_panel.cpp")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)

@@ -13,6 +13,7 @@ namespace poseidon
 	{
 	public:
 		Text();
+		Text(const std::u8string& text);
 
 		inline const std::u8string& text() const { return text_; }
 		inline void setText(std::u8string text) { text_ = text; }

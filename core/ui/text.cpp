@@ -11,9 +11,13 @@ namespace poseidon
 	std::shared_ptr<Font> Text::defaultFont_ = nullptr;
 
 	Text::Text() :
+		Text(u8"") {}
+
+	Text::Text(const std::u8string& text) :
 		fontSize_(12.0f),
 		color_(0.0f, 0.0f, 0.0f, 1.0f),
-		baseline_(0.0f)
+		baseline_(0.0f),
+		text_(text)
 	{
 		if (defaultFont_ == nullptr)
 			defaultFont_ = std::make_shared<Font>(RES_DIR "fonts/pixel-font.png", RES_DIR "fonts/pixel-font-values.json");

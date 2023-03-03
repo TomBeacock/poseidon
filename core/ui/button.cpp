@@ -9,15 +9,15 @@ namespace poseidon
 	{
 		setHitTestable(true);
 
-		auto vPanel = std::make_unique<VerticalPanel>();
+		auto vPanel = std::make_shared<VerticalPanel>();
 		vPanel->setPadding(Thickness(8.0f, 4.0f));
 
 		text_ = std::make_shared<Text>();
 		auto textLayout = std::make_unique<VerticalPanel::LayoutParams>();
 		textLayout->setHorizontalAlignment(HorizontalAlignment::Center);
-		vPanel->addView(text_, std::move(textLayout));
+		vPanel->addChild(text_, std::move(textLayout));
 
-		setRoot(std::move(vPanel));
+		setRoot(vPanel);
 	}
 
 	void Button::onMouseEnter(const class MouseMotionEvent& event)
